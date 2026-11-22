@@ -1,0 +1,24 @@
+OK  AC-Energie steigt als Delta
+OK  Gleicher Zaehlerstand erhoeht Zeitfenster, kein doppeltes Zaehlen
+OK  SoC-Schaetzung aus AC-kWh und Wirkungsgrad
+OK  Nachtraegliche Eingabe jetzt addiert fruehere kWh nicht erneut
+OK  Neue kWh nach Eingabe zaehlen
+OK  Ungeklärter Zaehlerreset verwirft SoC-Schaetzung
+OK  Neuer Session-Identifier kann gueltigen Reset signalisieren
+OK  Lernen aus dokumentierter Fahrt mit gemessenem End-SoC
+OK  Externe Ladungen werden nicht zum Verbrauchslernen genutzt
+OK  PV-Ueberschuss mit 3 Phasen wird auf 8 A begrenzt
+OK  Ohne aktuelle PV-Erzeugung trotz Export kein Smartladen
+OK  Hausspeicher unter Reserve stoppt Smartladung
+OK  Jetztmodus begrenzt 6,6 kW Fahrzeuglader auf 9 A 3-phasig
+OK  Ohne aktuelle Eingangswerte keine Freigabe
+OK  Zeitaufgeloeste PV-Prognose wird fuer die Ladeplanung verwendet
+OK  Historische Ladesitzung inklusive AC-kWh kann manuell erfasst werden
+OK  Nachtraegliche Energiekorrektur mit Originalwert
+OK  Manuell korrigierte Energiewerte werden nicht zum Wirkungsgrad-Lernen verwendet
+OK  Manuelle unplausible Energiewerte werden abgewiesen
+OK  PV-Prognose veraendert rechtzeitig den Abfahrtslade-Puffer
+ALLE TESTS BESTANDEN
+MOCK MODUL: Start, Tile, RequestAction, Manualhistorie, Simulation BESTANDEN
+Mobile UI: all actions including skip, editing, adding charging sessions PASSED
+Desktop UI PASSED

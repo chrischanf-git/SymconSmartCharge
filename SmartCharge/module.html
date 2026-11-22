@@ -1,0 +1,253 @@
+<style>
+:root{--bg:#0b100f;--surface:#151d1a;--surface2:#1b2621;--line:#28372f;--text:#eff7f1;--muted:#91a59b;--mint:#47e19c;--mint-bright:#7cf5b1;--green:#16b978;--lime:#b9ffc9;--danger:#ff827d;--amber:#f2bb67;--white:#f1f6f3}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--mint-bright);outline-offset:3px}
+button{touch-action:manipulation}button:disabled{opacity:.55;cursor:not-allowed}
+.luna-app{max-width:1160px;margin:0 auto;padding:18px 17px 100px;min-height:100vh}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 18px}
+.brand{display:flex;align-items:center;gap:10px}.brand-icon{width:41px;height:41px;display:grid;place-items:center;background:linear-gradient(145deg,#70f9b5,#23b77d);border-radius:13px;color:#05251a;font-weight:900;font-size:23px;box-shadow:0 7px 28px #2fdfa442}
+.brand-main{font-weight:900;font-size:19px;letter-spacing:-.045em}.brand-caption{color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:650}
+.env{font-size:11px;font-weight:800;padding:8px 11px;border-radius:99px;border:1px solid #42644f;background:#173326;color:var(--mint)}.env.demo{background:#322817;border-color:#73562e;color:#f5c271}.env.live{background:#164c34;border-color:#248d5f}
+.status-bar{display:flex;align-items:center;gap:9px;padding:10px 13px;background:var(--surface2);border:1px solid var(--line);border-radius:14px;margin-bottom:16px;font-size:12px;color:#b9cbbf;min-height:44px}.status-bar b{color:var(--text);font-weight:750}.light{width:8px;height:8px;background:var(--mint);border-radius:50%;box-shadow:0 0 14px #47e19c7a;flex:0 0 auto}.light.warn{background:var(--amber);box-shadow:none}.light.bad{background:var(--danger);box-shadow:none}.status-bar .right{margin-left:auto;font-size:11px;color:var(--muted)}
+.dashboard{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,.93fr);gap:17px}.column{min-width:0;display:flex;flex-direction:column;gap:16px}
+.vehicle{border:1px solid #3a4b42;border-radius:23px;background:var(--surface);overflow:hidden;box-shadow:0 18px 48px #0004}
+.photo{background:#eef0ee;position:relative;height:235px;overflow:hidden}.photo:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent 70%,rgba(13,20,17,.16))}.photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 53%;}
+.photo-label{position:absolute;z-index:2;top:13px;left:15px;background:#0b2017db;color:#edfff5;border:1px solid #b8e1c75c;font-size:10px;padding:6px 10px;border-radius:999px;font-weight:850;letter-spacing:.09em}
+.photo-state{position:absolute;right:12px;bottom:13px;z-index:2;background:#e8f4e9ed;border:1px solid #7abf99;color:#155238;font-size:11px;font-weight:900;border-radius:99px;padding:7px 10px;box-shadow:0 5px 25px #0002}
+.vehicle-body{padding:17px}.car-status{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.mini-label{text-transform:uppercase;font-size:10px;letter-spacing:.13em;color:var(--muted);font-weight:750}.tiny-link{border:0;background:none;color:var(--mint);font-size:12px;font-weight:750;padding:6px 0}
+.hero-data{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}.soc-ring{--pct:0%;height:111px;width:111px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--mint) var(--pct),#374b3f var(--pct));position:relative}.soc-ring:before{content:"";position:absolute;inset:9px;border-radius:50%;background:#111a15;box-shadow:inset 0 0 12px #0007}.soc-text{position:relative;text-align:center}.soc-text strong{font-size:31px;font-weight:900;letter-spacing:-.07em;line-height:1}.soc-text em{font-size:14px;font-weight:800;color:var(--mint);font-style:normal}.soc-text small{display:block;text-transform:uppercase;color:var(--muted);font-size:9px;letter-spacing:.1em;margin-top:7px}
+.range-big{font-size:37px;font-weight:900;letter-spacing:-.055em;line-height:1.13;margin:6px 0}.range-big small{font-size:14px;font-weight:600;letter-spacing:0;color:var(--muted)}.gain{font-size:12px;color:var(--muted);line-height:1.8}.gain strong{color:var(--mint)}
+.hero-metrics{border-top:1px solid var(--line);margin-top:18px;padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.metric-label{font-size:11px;color:var(--muted)}.metric-num{font-weight:900;font-size:23px;letter-spacing:-.04em;margin-top:3px}.metric-num small{font-size:12px;color:var(--muted);letter-spacing:0;font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:19px;padding:16px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.card-title{font-size:15px;font-weight:870;letter-spacing:-.012em;margin:0}.sub{font-size:11px;color:var(--muted)}
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#0c1510;padding:5px;border:1px solid #31483a;border-radius:14px}.mode button{border:0;background:transparent;color:#99af9f;border-radius:11px;font-size:13px;font-weight:850;min-height:47px;transition:background .15s}.mode button.active{background:linear-gradient(120deg,#77f0b0,#33cd88);color:#09291d;box-shadow:0 5px 18px #2cd58d32}.mode-explain{font-size:11px;color:var(--muted);margin:12px 1px 0;line-height:1.5}
+.trip-top{display:flex;align-items:center;justify-content:space-between;gap:9px}.trip-main{font-weight:850;font-size:19px;letter-spacing:-.03em;margin-top:5px}.outline-btn{padding:10px 12px;border:1px solid #42624b;background:#243c2e;color:var(--mint);border-radius:10px;font-size:12px;font-weight:800;white-space:nowrap}.progress{height:9px;background:#34473c;border-radius:30px;margin:14px 0 10px;overflow:hidden}.progress >div{width:0%;height:100%;background:linear-gradient(90deg,#198b5a,#71f8af);border-radius:30px;transition:width .25s}.trip-info{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted)}.trip-info b{color:var(--text)}
+.energy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.energy{border:1px solid #314337;border-radius:14px;padding:12px 9px;background:var(--surface2)}.energy-icon{font-size:15px;color:var(--mint);margin-bottom:12px}.energy-name{font-size:10px;color:var(--muted)}.energy-value{font-size:19px;font-weight:900;white-space:nowrap;margin-top:4px;letter-spacing:-.045em}.energy-value small{font-size:10px;font-weight:600;letter-spacing:0;color:var(--muted)}.energy-sub{font-size:10px;color:#879c8f;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.decision{display:flex;gap:11px;align-items:flex-start;padding:13px;border-radius:12px;background:#102e21;border:1px solid #256347}.decision-icon{width:28px;height:28px;border-radius:10px;display:grid;place-items:center;flex-shrink:0;background:#227a53;color:#c5ffe2}.decision strong{font-weight:820;font-size:12px}.decision p{font-size:11px;color:#b6d1c1;margin:5px 0 0;line-height:1.5}.row-stats{margin-top:13px;display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat-box{padding:12px;border-radius:12px;border:1px solid #304238;background:#1b2a22}.stat-box .data{font-size:19px;font-weight:900;margin-top:3px}.stat-box small{font-size:11px;color:var(--muted)}
+.more{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.more summary{cursor:pointer;color:#a9c3b3;font-size:12px;font-weight:750}.details{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:7px}.detail{font-size:11px;color:var(--muted);padding:6px 0}.detail b{display:block;color:#ecf9f0;font-size:13px;margin-top:2px}
+.history{display:flex;flex-direction:column;gap:8px}.history-item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#17251c;border:1px solid #2b4433;border-radius:13px;padding:12px}.history-title{font-size:12px;font-weight:800}.history-sub{font-size:10px;color:var(--muted);margin-top:4px}.history-action{font-size:11px;font-weight:800;border:1px solid #477b5d;color:var(--mint);background:transparent;padding:9px;border-radius:9px;white-space:nowrap}
+.new-session{width:100%;margin-top:11px;min-height:43px;text-align:center;background:#203b2c}.footer-action{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,530px);z-index:6;margin:0;padding:11px 17px max(17px,env(safe-area-inset-bottom));background:#0b100feF;border-top:1px solid #223b2c;display:flex;gap:9px;backdrop-filter:blur(12px)}.primary{border:0;flex:1;min-height:49px;border-radius:12px;background:linear-gradient(115deg,#68f2ad,#2acd83);color:#092e20;font-weight:900;font-size:13px}.secondary{border:1px solid #44604b;background:#20332a;color:#e6f7ea;border-radius:12px;padding:12px 15px;font-weight:850;font-size:13px}.secondary.ispaused{border-color:#3ea370;color:var(--mint)}
+.note{font-size:11px;color:var(--muted);margin:11px 2px 0}.note.bad{color:var(--danger)}
+.modal-back{position:fixed;inset:0;background:#000c;z-index:20;display:none;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(6px)}.modal-back.open{display:flex}.sheet{background:#18231d;border:1px solid #42614b;border-radius:23px;max-width:490px;width:100%;max-height:min(92vh,820px);overflow:auto;padding:19px 20px 21px;box-shadow:0 20px 85px #000b}.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.sheet h2{font-size:21px;margin:0;letter-spacing:-.045em}.close{background:#284034;border:0;color:#eafff0;border-radius:9px;min-width:36px;min-height:36px}.sheet p{color:var(--muted);font-size:12px;line-height:1.55;margin:8px 0 17px}
+.inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.wide{grid-column:1/-1}.field label{font-size:11px;color:#c0d5c5;font-weight:750}.field input,.field select{min-height:44px;border:1px solid #3a5945;background:#0b1610;color:#e9fff0;border-radius:11px;padding:10px 11px;width:100%;font-size:15px;color-scheme:dark}.hint{color:#b3dbbc;background:#203b29;border:1px solid #326e49;font-size:11px;padding:11px;border-radius:10px;margin:16px 0}.form-actions{display:flex;gap:8px;align-items:center}.subtle-btn{color:#c6ddce;background:none;border:1px solid #4a6251;padding:12px;border-radius:10px;font-weight:780;font-size:12px}.form-actions .primary{font-size:13px}.checkboxline{display:flex;gap:9px;align-items:center;color:var(--muted);font-size:11px}.checkboxline input{width:18px;height:18px;accent-color:var(--mint)}.hidden{display:none!important}
+.toast{position:fixed;z-index:25;bottom:88px;left:50%;transform:translateX(-50%);padding:10px 15px;border-radius:12px;background:#225e42;border:1px solid #50af7c;color:#eaffef;max-width:90vw;text-align:center;box-shadow:0 8px 35px #0008;display:none}.toast.show{display:block}
+@media(max-width:840px){.dashboard{grid-template-columns:1fr}.luna-app{max-width:530px}.photo{height:220px}}
+@media(min-width:840px){.luna-app{padding:26px 28px 46px}.footer-action{position:static;left:auto;transform:none;width:auto;margin:0;padding:0;background:none;border:0;backdrop-filter:none}.photo{height:300px}.dashboard{align-items:start}.column{gap:17px}.sheet{padding:24px}.energy-grid{gap:10px}}
+@media(max-width:370px){.hero-data{grid-template-columns:100px 1fr;gap:12px}.soc-ring{width:98px;height:98px}.soc-text strong{font-size:27px}.range-big{font-size:31px}.energy-value{font-size:16px}.photo{height:195px}.luna-app{padding-left:13px;padding-right:13px}.footer-action{margin-left:-13px;margin-right:-13px;padding-left:13px;padding-right:13px}}
+</style>
+<div class="luna-app">
+ <div class="top"><div class="brand"><div class="brand-icon">ϟ</div><div><div class="brand-main">Luna <span style="color:var(--mint)">SmartCharge</span></div><div class="brand-caption">Renault Twingo E-Tech · 2026</div></div></div><span class="env demo" id="env-badge">DEMO</span></div>
+ <div class="status-bar"><span class="light" id="state-light"></span><div><b id="state-name">Laden bereit</b><span id="state-desc"> · Daten werden geprüft</span></div><span class="right" id="updated">–</span></div>
+ <div class="dashboard">
+  <div class="column">
+   <section class="vehicle">
+    <div class="photo"><img alt="Grüner Renault Twingo E-Tech elektrisch, Modell 2026" src="__LUNA_PHOTO__"><span class="photo-label">RENAULT · TWINGO E-TECH</span><span class="photo-state" id="car-status">● Verbunden</span></div>
+    <div class="vehicle-body"><div class="car-status"><span class="mini-label">Fahrzeugbatterie</span><button class="tiny-link" id="open-entry-top" type="button">Fahrdaten bearbeiten ↗</button></div>
+     <div class="hero-data"><div class="soc-ring" id="soc-ring"><div class="soc-text"><strong id="soc-pct">—</strong><em>%</em><small id="soc-quality">SCHÄTZUNG</small></div></div><div><div class="mini-label">Reichweite · geschätzt</div><div class="range-big"><span id="range">—</span> <small>km</small></div><div class="gain">Durch diese Ladung: <strong id="gain">— km</strong><br>Kilometerstand: <span id="odo">—</span></div></div></div>
+     <div class="hero-metrics"><div><div class="metric-label">Ladeleistung</div><div class="metric-num"><span id="power">—</span> <small>kW</small></div></div><div><div class="metric-label">AC-Energie seit Stecken</div><div class="metric-num"><span id="energy">—</span> <small>kWh</small></div></div></div>
+    </div>
+   </section>
+   <section class="card"><div class="card-head"><h2 class="card-title">Lademodus</h2><span class="sub">PV oder sofort</span></div><div class="mode" role="group" aria-label="Lademodus"><button id="smart-mode" type="button">☀ Smart laden</button><button id="now-mode" type="button">ϟ Jetzt laden</button></div><div class="mode-explain" id="mode-explain"></div></section>
+   <section class="card"><div class="trip-top"><div><div class="mini-label">Nächste Abfahrt</div><div class="trip-main" id="departure-time">—</div></div><button class="outline-btn" id="edit-trip" type="button">Ziel ändern</button></div><div class="progress"><div id="target-progress"></div></div><div class="trip-info"><span>Strecke <b id="route">— km</b></span><span>Ladeziel <b id="target-soc">— %</b></span></div><div class="note" id="goal-warning"></div></section>
+  </div>
+  <div class="column">
+   <section class="card"><div class="card-head"><h2 class="card-title">Energie im Haus</h2><span class="sub" id="sensor-label">Symcon</span></div><div class="energy-grid">
+      <div class="energy"><div class="energy-icon">☀</div><div class="energy-name">PV aktuell</div><div class="energy-value"><span id="pv-val">—</span> <small>kW</small></div><div class="energy-sub">Produktion</div></div>
+      <div class="energy"><div class="energy-icon">▰</div><div class="energy-name">Hausakku</div><div class="energy-value"><span id="bat-soc">—</span> <small>%</small></div><div class="energy-sub" id="battery-sub">Reserve 35 %</div></div>
+      <div class="energy"><div class="energy-icon">⌂</div><div class="energy-name">Netz</div><div class="energy-value"><span id="grid-val">—</span> <small>kW</small></div><div class="energy-sub" id="grid-sub">Bezug / Einspeisung</div></div>
+    </div><details class="more"><summary>Weitere Messwerte</summary><div class="details"><div class="detail">Hausverbrauch<b id="house-val">—</b></div><div class="detail">Wärmepumpe<b id="wp-val">—</b></div><div class="detail">Speicherleistung<b id="battery-power-val">—</b></div><div class="detail">Lade-Stromgrenze<b id="current-val">—</b></div></div></details></section>
+   <section class="card"><div class="card-head"><h2 class="card-title">Ladeplanung</h2><span class="sub" id="plan-type">Vorausschau</span></div><div class="decision"><div class="decision-icon">✦</div><div><strong id="decision-title">Steuerung wird berechnet</strong><p id="decision-text"></p></div></div><div class="row-stats"><div class="stat-box"><small>Regler-Soll</small><div class="data"><span id="amp-target">0</span> <small>A</small></div></div><div class="stat-box"><small>PV bis Abfahrt</small><div class="data"><span id="forecast">—</span> <small>kWh</small></div></div></div><p class="note" id="dry-run-note">Im Simulationsbetrieb werden keine Befehle an die Luna gesendet.</p><p class="note bad" id="api-error"></p></section>
+   <section class="card"><div class="card-head"><h2 class="card-title">Lernen & Verbrauch</h2><span class="sub">Eigene Fahrdaten</span></div><div class="row-stats" style="margin-top:0"><div class="stat-box"><small>Fahrverbrauch</small><div class="data"><span id="consumption">14,5</span> <small>kWh/100 km</small></div></div><div class="stat-box"><small>Ladeeffizienz</small><div class="data"><span id="efficiency">91</span> <small>%</small></div></div></div><div class="note" id="learning-info"></div></section>
+   <section class="card"><div class="card-head"><h2 class="card-title">Vergangene Ladungen</h2><span class="sub">Nachträglich ergänzen</span></div><div class="history" id="history"><div class="sub">Noch keine gespeicherten Sitzungen.</div></div><button class="history-action new-session" type="button" id="create-manual">＋ Vergangene Ladung manuell hinzufügen</button></section>
+   <div class="footer-action"><button class="secondary" id="pause" type="button">⏸ Pause</button><button class="primary" id="open-entry" type="button">Fahrtdaten eingeben</button></div>
+  </div>
+ </div>
+</div>
+<div class="modal-back" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="sheet"><div class="sheet-head"><h2 id="modal-title">Fahrzeugdaten</h2><button class="close" aria-label="Schließen" type="button" id="close-modal">✕</button></div><p id="modal-info">Kilometerstand und Akkustand vom Fahrzeug ablesen. Bei späterer Eingabe den Bezugszeitpunkt wählen.</p>
+  <form id="entry-form"><div class="inputs">
+    <div class="field wide hidden" id="manual-when-row"><label for="in-when">Ladung begonnen am</label><input id="in-when" type="datetime-local"></div>
+    <div class="field wide hidden" id="manual-until-row"><label for="in-until">Ladung beendet am</label><input id="in-until" type="datetime-local"></div>
+    <div class="field"><label for="in-odo">Kilometerstand (km)</label><input id="in-odo" type="number" min="0" max="9999999" step="1" required></div>
+    <div class="field"><label for="in-soc">Akkustand am Auto (%)</label><input id="in-soc" type="number" min="0" max="100" step="0.5" required></div>
+    <div class="field wide"><label for="in-moment">Wann wurde dieser SoC abgelesen?</label><select id="in-moment"><option value="plug">Beim Anstecken (auch nachträglich erinnerter Wert)</option><option value="now">Gerade jetzt – bei laufender Sitzung</option><option value="end">Nach dem Laden – abgeschlossene Sitzung</option></select></div>
+    <div class="field"><label for="in-trip">Nächste Fahrstrecke (km)</label><input id="in-trip" type="number" min="0" max="2500" step="1" required></div>
+    <div class="field"><label for="in-reserve">Reserve nach Fahrt (%)</label><input id="in-reserve" type="number" min="0" max="70" step="1" required></div>
+    <div class="field"><label for="in-goal">Gewünschtes Mindestziel (%)</label><input id="in-goal" type="number" min="0" max="100" step="1" required></div>
+    <div class="field"><label for="in-departure">Abfahrt</label><input id="in-departure" type="datetime-local" required></div>
+    <div class="field wide hidden" id="manual-energy-row"><label for="in-energy" id="energy-label">AC-Ladeenergie (kWh) · optional bei vorhandener Sitzung</label><input id="in-energy" type="number" min="0" max="150" step="0.01" inputmode="decimal" placeholder="Nur bei Korrektur eingeben"></div>
+    <div class="field wide" id="end-row"><label for="in-end-soc">Tatsächlich abgelesener Akkustand nach dem Laden (%) · optional</label><input id="in-end-soc" type="number" min="0" max="100" step="0.5" placeholder="z. B. 81"></div>
+    <div class="field wide"><label class="checkboxline"><input id="in-external" type="checkbox"> Seit der vorigen Ladung unterwegs zusätzlich geladen</label></div>
+  </div><div class="hint">Laden und Fahrverbrauch werden aus deinen Eingaben geschätzt. Bitte nur reale Ablesewerte eingeben; unbekannte Angaben lieber überspringen.</div><div class="form-actions"><button class="subtle-btn" id="skip-entry" type="button">Überspringen</button><button class="primary" type="submit" id="save-entry">Speichern</button></div></form>
+ </div></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+ 'use strict';
+ const DEMO=__LUNA_DEMO__;
+ let state=__LUNA_INITIAL__, currentEdit='active', entryShownFor='', modalMode='entry';
+ const $=id=>document.getElementById(id), pad=n=>String(n).padStart(2,'0');
+ const fmt=(v,d=0)=>typeof v==='number'&&Number.isFinite(v)?v.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';
+ const num=(id,v,d=0)=>{$(id).textContent=fmt(v,d)};
+ const tsFormat=t=>{if(!t)return'Nicht festgelegt';let dt=new Date(t*1000);return dt.toLocaleString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' Uhr'};
+ const inputTs=t=>{const d=new Date((t||Date.now()/1000)*1000);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`};
+ const toast=m=>{const el=$('toast');el.textContent=m;el.classList.add('show');clearTimeout(el._tm);el._tm=setTimeout(()=>el.classList.remove('show'),2600)};
+ function send(action,data={}){
+   if(DEMO){simulate(action,data);return;}
+   if(typeof requestAction!=='function'){toast('Keine Symcon-Verbindung');return;}
+   try{requestAction('UI',JSON.stringify({action,data}));toast('An Symcon übermittelt');}
+   catch(e){toast('Aktion fehlgeschlagen: '+e.message)}
+ }
+ function simulate(action,p){
+   if(action==='mode')state.mode=p.value;
+   if(action==='pause')state.paused=p.value;
+   if(action==='skip'){state.entryRequired=false;if(state.active)state.active.entrySkipped=true}
+   if(action==='trip'){Object.assign(state,{tripKm:p.tripKm,desiredSoc:p.desiredSoc,reserveSoc:p.reserveSoc,departure:p.departure})}
+   if(action==='entry'){
+      let row=p.sessionId==='active'?state.active:(state.history||[]).find(r=>r.id===p.sessionId);
+      if(row){row.odoKm=p.odoKm;row.socAnchorPct=p.socPct;row.socAnchorMoment=p.moment;row.entrySkipped=false;row.actualEndSocPct=p.endSocPct===''?null:p.endSocPct;if(p.manualEnergyAcKwh!==undefined&&p.manualEnergyAcKwh!==''){row.energyAcKwh=p.manualEnergyAcKwh;row.energySource='manual';row.meterValid=true}}
+      if(p.sessionId==='active'){
+        state.entryRequired=false;
+        if(p.moment==='now')state.active.anchorEnergyKwh=state.active.energyAcKwh;
+        state.estimate=calcDemo(state);
+      }
+      Object.assign(state,{tripKm:p.tripKm??state.tripKm,desiredSoc:p.desiredSoc??state.desiredSoc,reserveSoc:p.reserveSoc??state.reserveSoc,departure:p.departure??state.departure});
+   }
+   if(action==='createManual'){
+      const t=Date.now()/1000, newRow={id:'manual-'+Math.round(t),plugTs:p.plugTs,unplugTs:p.unplugTs,
+         energyAcKwh:p.manualEnergyAcKwh,energySource:'manual',meterValid:true,
+         odoKm:p.odoKm,socAnchorPct:p.socPct,socAnchorMoment:p.moment,actualEndSocPct:p.endSocPct===''?null:p.endSocPct,
+         externallyCharged:!!p.externallyCharged,entrySkipped:false};
+      state.history.unshift(newRow);state.history.sort((a,b)=>b.plugTs-a.plugTs);
+   }
+   if(action==='refresh'&&state.active){state.active.energyAcKwh+=0.15;state.estimate=calcDemo(state)}
+   const target=Math.max(state.desiredSoc||80,((state.tripKm||0)*(state.learned.consumption)/100)/(state.learningCapacityKwh||27.5)*100+(state.reserveSoc||0));
+   state.targetSoc=Math.min(100,Math.round(target));
+   state.targetCurrent=state.paused?0:state.mode==='now'?9:8;
+   state.reason=state.paused?'Manuell pausiert':state.mode==='now'?'Jetzt laden: Netzbezug erlaubt':'PV-Überschuss erkannt, Hausspeicher geschützt';
+   render();
+ }
+ function calcDemo(s){if(!s.active||s.active.socAnchorPct==null)return{valid:false,soc:null,rangeKm:null,gainKm:null,quality:'Keine Fahrzeugangaben'};
+   const ac=Math.max(0,s.active.energyAcKwh-(s.active.anchorEnergyKwh||0)),en=ac*(s.learned.efficiency||.91),soc=Math.min(100,s.active.socAnchorPct+en/(s.learningCapacityKwh||27.5)*100);
+   return{valid:true,soc,rangeKm:Math.round((soc/100*(s.learningCapacityKwh||27.5))/(s.learned.consumption||14.5)*100),gainKm:Math.round(en/(s.learned.consumption||14.5)*100),quality:'Nur Schätzung'} }
+ function valKW(w){return typeof w==='number'?fmt(w/1000,1):'—'}
+ function render(){
+   $('env-badge').textContent=DEMO?'VORSCHAU':state.isLive?'LIVE':'SIMULATION';$('env-badge').className='env '+(DEMO||!state.isLive?'demo':'live');
+   $('sensor-label').textContent=state.sensorsFresh?'Messwerte aktuell':'Messwerte prüfen';
+   const bad=!state.chargerFresh||!state.sensorsFresh, charging=state.wallboxW>150 && state.connected && !state.paused;
+   $('state-light').className='light '+(!state.chargerFresh?'bad':bad?'warn':'');
+   $('state-name').textContent=!state.connected?'Nicht verbunden':state.paused?'Laden pausiert':charging?'Fahrzeug lädt':bad?'Daten prüfen':'Fahrzeug angeschlossen';
+   $('state-desc').textContent=state.connected?' · '+(state.mode==='smart'?'Smartladen':'Jetzt laden'):' · Wallbox bereit';
+   $('updated').textContent=new Date((state.now||Date.now()/1000)*1000).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+   $('car-status').textContent=state.connected?'● Angesteckt':'○ Nicht verbunden';
+   const est=state.estimate||{};const valid=est.valid===true;
+   num('soc-pct',valid?Math.round(est.soc):null);$('soc-ring').style.setProperty('--pct',(valid?Math.max(0,Math.min(100,est.soc)):0)+'%');
+   $('soc-quality').textContent=!valid?'UNBEKANNT':!state.connected?'LETZTER STAND':est.quality==='Gemessener Endwert'?'ABGELESEN':'GESCHÄTZT';
+   num('range',valid?est.rangeKm:null);$('gain').textContent=valid?'+'+fmt(est.gainKm)+' km':'— km';
+   num('odo',state.active?.odoKm??null);
+   num('power',typeof state.wallboxW==='number'?state.wallboxW/1000:null,1);
+   num('energy',state.active?.energyAcKwh??null,2);
+   $('smart-mode').classList.toggle('active',state.mode==='smart');$('now-mode').classList.toggle('active',state.mode==='now');
+   $('mode-explain').textContent=state.mode==='smart'?'PV-Überschuss, Hausspeicher-Reserve und Abfahrtszeit entscheiden über den Ladestrom.':'Sofort laden bis zum Ziel. Netzbezug wird zugelassen, Grenzen der Anlage bleiben bestehen.';
+   $('departure-time').textContent=tsFormat(state.departure);$('route').textContent=fmt(state.tripKm)+' km';$('target-soc').textContent=fmt(state.targetSoc)+' %';
+   $('target-progress').style.width=(valid&&state.targetSoc?Math.min(100,100*est.soc/state.targetSoc):0)+'%';
+   $('goal-warning').textContent=state.routeImpossible?'Achtung: Strecke ohne Zwischenladen nicht vollständig erreichbar.':valid?'Nötige zusätzliche AC-Energie: '+fmt(state.neededAcKwh,1)+' kWh':'Fahrzeug-SoC noch nicht erfasst: keine Abfahrtsgarantie möglich.';
+   $('goal-warning').classList.toggle('bad',!!state.routeImpossible);
+   $('pv-val').textContent=valKW(state.pvW);num('bat-soc',state.batterySoc,0);$('battery-sub').textContent='Reserve '+fmt(state.houseBatteryReservePct)+' %';
+   $('grid-val').textContent=valKW(typeof state.gridW==='number'?Math.abs(state.gridW):null);$('grid-sub').textContent=state.gridW===null?'Messpunkt fehlt':state.gridW>=0?'Netzbezug':'Netzeinspeisung';
+   $('house-val').textContent=typeof state.houseW==='number'?valKW(state.houseW)+' kW':'–';
+   $('wp-val').textContent=typeof state.heatPumpW==='number'?valKW(state.heatPumpW)+' kW':'–';
+   $('battery-power-val').textContent=typeof state.batteryW==='number'?valKW(Math.abs(state.batteryW))+' kW '+(state.batteryW>0?'Entl.':'Laden'):'–';
+   $('current-val').textContent=fmt(state.chargerCurrent)+' A';
+   $('decision-title').textContent=state.urgent?'Abfahrtsgarantie aktiv':state.targetCurrent>0?'Laden nach Energieangebot':'Ladung wartet';
+   $('decision-text').textContent=state.reason||'Keine Entscheidung';num('amp-target',state.targetCurrent);num('forecast',state.forecastAcKwh,1);
+   $('plan-type').textContent=state.forecastAcKwh===null?'Keine Zeitprognose':'PV-Prognose';
+   $('dry-run-note').textContent=DEMO?'Interaktive Designvorschau · Beispieldaten, keine Wallboxsteuerung.':state.isLive?'LIVE: Stellbefehle nur nach Prüfung und im Zeitabstand; Hardwareabsicherung bleibt erforderlich.':'SIMULATION: Es werden keine Befehle an die Wallbox gesendet.';
+   $('api-error').textContent=state.lastCommandError?'Letzte Aktion fehlgeschlagen: '+state.lastCommandError:'';
+   num('consumption',state.learned?.consumption,1);num('efficiency',typeof state.learned?.efficiency==='number'?state.learned.efficiency*100:null,1);
+   $('learning-info').textContent='Lernbasis: '+(state.learned?.drivingSamples||0)+' nachvollziehbare Fahrten · '+(state.learned?.efficiencySamples||0)+' Lademessungen. Nur echte Auto-Ablesewerte zählen.';
+   $('pause').textContent=state.paused?'▶ Fortsetzen':'⏸ Pausieren';$('pause').classList.toggle('ispaused',!!state.paused);
+   $('open-entry').textContent=state.active?(state.active.odoKm==null?'Fahrtdaten eingeben':'Fahrtdaten ändern'):(state.history?.length?'Letzte Ladung bearbeiten':'Ladung nachtragen');
+   renderHistory();
+   if(!DEMO && state.entryRequired && state.active && entryShownFor!==state.active.id && !$('modal').classList.contains('open')){entryShownFor=state.active.id;openEntry('active')}
+ }
+ function renderHistory(){const wrap=$('history');wrap.textContent='';if(!state.history||!state.history.length){wrap.textContent='Noch keine Ladesitzung gespeichert.';wrap.classList.add('sub');return}wrap.classList.remove('sub');
+   state.history.slice(0,8).forEach(r=>{const div=document.createElement('div');div.className='history-item';const info=document.createElement('div');const title=document.createElement('div');title.className='history-title';title.textContent=tsFormat(r.plugTs);const text=document.createElement('div');text.className='history-sub';text.textContent=fmt(r.energyAcKwh,2)+' kWh '+(r.energySource==='manual'?'· manuell':'')+' · '+(r.socAnchorPct==null?'Fahrzeugdaten fehlen':fmt(r.socAnchorPct,0)+' % erfasst');const btn=document.createElement('button');btn.type='button';btn.className='history-action';btn.textContent='Nachtragen';btn.addEventListener('click',()=>openEntry(r.id));info.append(title,text);div.append(info,btn);wrap.append(div)})
+ }
+ function openEntry(id='active'){
+    if(id==='active'&&!state.active){
+       if(state.history?.length)id=state.history[0].id;
+       else {openManual();return}
+    }
+    modalMode='entry';currentEdit=id;
+    $('manual-when-row').classList.add('hidden');$('manual-until-row').classList.add('hidden');
+    $('manual-energy-row').classList.toggle('hidden',id==='active');
+    $('in-when').required=false;$('in-until').required=false;$('in-energy').required=false;
+    $('energy-label').textContent='AC-Ladeenergie (kWh) · optional korrigieren';
+    $('in-trip').required=true;$('in-goal').required=true;$('in-reserve').required=true;$('in-departure').required=true;
+    $('in-odo').required=true;$('in-soc').required=true;
+    const row=id==='active'?state.active:(state.history||[]).find(x=>x.id===id);
+    $('modal-title').textContent=id==='active'?'Fahrzeugdaten erfassen':'Ladesitzung nachträglich bearbeiten';
+    $('modal-info').textContent=id==='active'?'Bitte SoC und km am Fahrzeug ablesen. Die Eingabe lässt sich überspringen und später korrigieren.':'Bei früheren Sitzungen den richtigen Bezugszeitpunkt wählen. Nicht bekannte Werte nicht erfinden.';
+    $('in-odo').value=row?.odoKm??'';$('in-soc').value=row?.socAnchorPct??'';
+    $('in-moment').value=row?.socAnchorMoment||(id==='active'?'plug':'plug');
+    $('in-moment').querySelector('option[value="now"]').disabled=id!=='active';
+    $('in-moment').querySelector('option[value="end"]').disabled=id==='active';
+    $('in-trip').value=state.tripKm??85;$('in-goal').value=state.desiredSoc??80;$('in-reserve').value=state.reserveSoc??20;
+    $('in-departure').value=inputTs(state.departure);$('in-end-soc').value=row?.actualEndSocPct??'';$('in-energy').value='';$('in-energy').placeholder=id==='active'?'':'Bisher: '+fmt(row?.energyAcKwh,2)+' kWh';
+    $('in-external').checked=!!row?.externallyCharged;
+    $('skip-entry').classList.toggle('hidden',id!=='active');
+    $('end-row').classList.toggle('hidden',id==='active');
+    $('modal').classList.add('open');
+ }
+ function openManual(){
+    modalMode='manual';currentEdit='manual';
+    $('modal-title').textContent='Vergangene Ladung nachtragen';
+    $('modal-info').textContent='Nur wirklich bekannte Werte eintragen. Datum, km, Start-SoC und AC-kWh sind erforderlich; End-SoC ist optional.';
+    const now=Date.now()/1000;
+    $('in-when').value=inputTs(now-3*3600);$('in-until').value=inputTs(now-3600);
+    $('in-energy').value='';$('in-energy').placeholder='z. B. 7,40';$('energy-label').textContent='AC-Ladeenergie (kWh) · erforderlich';$('in-odo').value='';$('in-soc').value='';
+    $('in-end-soc').value='';$('in-moment').value='plug';$('in-external').checked=false;
+    $('in-moment').querySelector('option[value="now"]').disabled=true;
+    $('in-moment').querySelector('option[value="end"]').disabled=false;
+    $('in-when').required=true;$('in-until').required=true;$('in-energy').required=true;
+    $('in-odo').required=true;$('in-soc').required=true;
+    ['manual-when-row','manual-until-row','manual-energy-row','end-row'].forEach(id=>$(id).classList.remove('hidden'));
+    ['in-trip','in-reserve','in-goal','in-departure'].forEach(id=>{$(id).closest('.field').classList.add('hidden');$(id).required=false});
+    $('skip-entry').classList.add('hidden');$('modal').classList.add('open');
+ }
+ function openTrip(){modalMode='trip';currentEdit='active';
+   ['manual-when-row','manual-until-row','manual-energy-row'].forEach(id=>$(id).classList.add('hidden'));
+   $('in-when').required=false;$('in-until').required=false;$('in-energy').required=false;
+   ['in-trip','in-reserve','in-goal','in-departure'].forEach(id=>{$(id).required=true;$(id).closest('.field').classList.remove('hidden')});$('in-odo').required=false;$('in-soc').required=false;$('modal-title').textContent='Nächste Fahrt planen';$('modal-info').textContent='Hier kannst du Ziel, Strecke und Abfahrt jederzeit ändern.';
+   $('in-trip').value=state.tripKm??85;$('in-goal').value=state.desiredSoc??80;$('in-reserve').value=state.reserveSoc??20;$('in-departure').value=inputTs(state.departure);
+   $('in-odo').closest('.field').classList.add('hidden');$('in-soc').closest('.field').classList.add('hidden');$('in-moment').closest('.field').classList.add('hidden');$('in-external').closest('.field').classList.add('hidden');$('end-row').classList.add('hidden');$('skip-entry').classList.add('hidden');$('modal').classList.add('open');
+ }
+ function closeModal(){ $('modal').classList.remove('open');
+   ['in-odo','in-soc','in-moment','in-external','in-trip','in-reserve','in-goal','in-departure'].forEach(id=>$(id).closest('.field').classList.remove('hidden'));
+   ['in-trip','in-reserve','in-goal','in-departure'].forEach(id=>$(id).required=true);
+   ['in-when','in-until','in-energy'].forEach(id=>$(id).required=false);
+ }
+ $('smart-mode').onclick=()=>send('mode',{value:'smart'});$('now-mode').onclick=()=>send('mode',{value:'now'});
+ $('pause').onclick=()=>send('pause',{value:!state.paused});
+ $('open-entry').onclick=()=>openEntry('active');$('open-entry-top').onclick=()=>openEntry('active');$('edit-trip').onclick=openTrip;$('create-manual').onclick=openManual;
+ $('close-modal').onclick=closeModal;$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});window.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+ $('skip-entry').onclick=()=>{send('skip');closeModal();toast('Übersprungen · jederzeit nachtragbar')};
+ $('entry-form').addEventListener('submit',event=>{event.preventDefault();
+   const trip={tripKm:Number($('in-trip').value),reserveSoc:Number($('in-reserve').value),desiredSoc:Number($('in-goal').value),departure:Math.floor(new Date($('in-departure').value).getTime()/1000)};
+   if(!Number.isFinite(trip.departure)){toast('Abfahrtsdatum prüfen');return}
+   if(modalMode==='trip'){send('trip',trip);closeModal();return}
+   const p={sessionId:currentEdit,odoKm:Number($('in-odo').value),socPct:Number($('in-soc').value),moment:$('in-moment').value,externallyCharged:$('in-external').checked,endSocPct:$('in-end-soc').value===''?'':Number($('in-end-soc').value)};
+   if(modalMode==='manual'){
+      p.plugTs=Math.floor(new Date($('in-when').value).getTime()/1000);
+      p.unplugTs=Math.floor(new Date($('in-until').value).getTime()/1000);
+      p.manualEnergyAcKwh=Number($('in-energy').value);
+      if(!Number.isFinite(p.plugTs)||!Number.isFinite(p.unplugTs)||p.plugTs>=p.unplugTs||p.unplugTs>Date.now()/1000){toast('Ladedatum oder Enddatum prüfen');return}
+      send('createManual',p);closeModal();return;
+   }
+   if(currentEdit!=='active' && $('in-energy').value!=='')p.manualEnergyAcKwh=Number($('in-energy').value);
+   if(currentEdit==='active')Object.assign(p,trip);send('entry',p);closeModal();
+ });
+ // Wird vom Symcon HTML-SDK nach Tick/RequestAction aufgerufen; keine Polling-Schleife im Browser.
+ window.handleMessage=function(next){if(typeof next==='string'){try{next=JSON.parse(next)}catch(e){return}}if(!next||typeof next!=='object')return;state=next;render()};
+ render();
+ if(DEMO&&window.location.hash==='#fahrtdaten')openEntry('active');
+})();
+</script>

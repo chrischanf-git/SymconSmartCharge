@@ -1,0 +1,12 @@
+{
+  "id": "{0F06F87B-A351-4B29-98A1-6DADE5C75CE0}",
+  "name": "LunaSmartCharge",
+  "type": 3,
+  "vendor": "Charge Amps / Symcon Erweiterung",
+  "aliases": ["Luna SmartCharge PV-Lademanager"],
+  "url": "",
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "LUNAS"
+}
