@@ -226,7 +226,12 @@ class LunaSmartCharge extends IPSModule
             $this->maybeSendCommand($state, $d, $decision, $now);
             $this->saveState($state);
             $this->outputVariables($state, $decision, $d);
-            $this->UpdateVisualizationValue($this->buildPayload($state, $now, $d, $decision));
+            $this->UpdateVisualizationValue(
+    json_encode(
+        $this->buildPayload($state, $now, $d, $decision),
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE
+    )
+);
         } catch (Throwable $e) {
             $this->SendDebug('TickError', $e->getMessage(), 0);
             IPS_LogMessage('LunaSmartCharge', 'Fehler: ' . $e->getMessage());
