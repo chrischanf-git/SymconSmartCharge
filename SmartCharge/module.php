@@ -49,7 +49,7 @@ class LunaSmartCharge extends IPSModule
         $this->RegisterVariableString('DataQuality', 'Datenqualitaet', '', 100);
         $this->EnableAction('Mode');
         $this->EnableAction('Paused');
-        $this->SetVisualizationType(INSTANCE_VISUALIZATION_TYPE_HTML);
+        $this->SetVisualizationType(1);
     }
 
     public function ApplyChanges()
