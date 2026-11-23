@@ -1,40 +1,229 @@
 {
   "elements": [
-    {"type":"Label","caption":"Luna SmartCharge v1.0 — vorhandene Charge-Amps-Skripte bleiben unverändert. Startet stets im Simulationsbetrieb."},
-    {"type":"NumberSpinner","name":"LunaParentID","caption":"Kategorie-ID mit CA_LUNA_* Variablen","minimum":1},
-    {"type":"ExpansionPanel","caption":"Energiedaten (Symcon-Variablen)","items":[
-      {"type":"SelectVariable","name":"PvPowerID","caption":"PV-Produktion (W)"},
-      {"type":"SelectVariable","name":"GridPowerID","caption":"Hausanschluss Netzleistung (W)"},
-      {"type":"SelectVariable","name":"BatterySocID","caption":"Hausspeicher SoC (%)"},
-      {"type":"SelectVariable","name":"BatteryPowerID","caption":"Hausspeicher Lade-/Entladeleistung (W)"},
-      {"type":"SelectVariable","name":"HousePowerID","caption":"Hausverbrauch (W, optional)"},
-      {"type":"SelectVariable","name":"HeatPumpPowerID","caption":"Waermepumpe (W, optional)"},
-      {"type":"SelectVariable","name":"ForecastJsonID","caption":"PV-Prognose als JSON-Slots (optional)"},
-      {"type":"Select","name":"PvSign","caption":"PV-Erzeugung Vorzeichen","options":[{"caption":"Positiv = Erzeugung","value":1},{"caption":"Negativ = Erzeugung","value":-1}]},
-      {"type":"Select","name":"GridSign","caption":"Netzleistung Vorzeichen","options":[{"caption":"Bezug positiv / Einspeisung negativ","value":1},{"caption":"Einspeisung positiv / Bezug negativ","value":-1}]},
-      {"type":"Select","name":"BatterySign","caption":"Hausspeicherleistung Vorzeichen","options":[{"caption":"Entladen positiv / Laden negativ","value":1},{"caption":"Laden positiv / Entladen negativ","value":-1}]}
-    ]},
-    {"type":"ExpansionPanel","caption":"Fahrzeug, Installation und Ladeplanung","items":[
-      {"type":"Select","name":"Phases","caption":"Feste aktive Phasen (NICHT automatisch umschalten)","options":[{"caption":"1 Phase","value":1},{"caption":"3 Phasen","value":3}]},
-      {"type":"NumberSpinner","name":"MaxCurrentA","caption":"Maximal erlaubte Stromstaerke","suffix":" A","minimum":6,"maximum":16},
-      {"type":"NumberSpinner","name":"VehicleAcMaxW","caption":"Tatsaechlich vorhandener Twingo-AC-Lader","suffix":" W","minimum":1400,"maximum":22000},
-      {"type":"NumberSpinner","name":"BatteryCapacityWh","caption":"Twingo nutzbare Batteriekapazitaet","suffix":" Wh","minimum":10000,"maximum":100000},
-      {"type":"NumberSpinner","name":"BatteryReservePct","caption":"Hausspeicher Mindestreserve","suffix":" %","minimum":0,"maximum":95},
-      {"type":"NumberSpinner","name":"BaseLoadForecastW","caption":"Annahme Grundlast fuer Wetterplanung","suffix":" W","minimum":0,"maximum":15000},
-      {"type":"NumberSpinner","name":"ExportMarginW","caption":"Puffer fuer PV-Schwankungen","suffix":" W","minimum":0,"maximum":2000},
-      {"type":"NumberSpinner","name":"MaxGridImportW","caption":"Maximaler gesamter Netzbezug am Hausanschluss (nur Software), Live >0","suffix":" W","minimum":0,"maximum":50000},
-      {"type":"NumberSpinner","name":"MaxDataAgeS","caption":"Maximales Datenalter","suffix":" s","minimum":60,"maximum":1200},
-      {"type":"NumberSpinner","name":"CommandIntervalS","caption":"Mindestens zwischen Cloud-Befehlen","suffix":" s","minimum":60,"maximum":1200}
-    ]},
-    {"type":"ExpansionPanel","caption":"Live-Steuerung: erst nach technischer Pruefung freigeben","items":[
-      {"type":"Label","caption":"ACHTUNG: Cloud-Regelung ersetzt KEIN hardwareseitiges Schutz-/Lastmanagement. Ohne alle vier Freigaben werden keine Befehle gesendet."},
-      {"type":"CheckBox","name":"CurrentControlVerified","caption":"API-Ladestrom mehrfach an Luna im Livebetrieb getestet"},
-      {"type":"CheckBox","name":"HardwareProtectionConfirmed","caption":"Unabhaengiges elektrisches Lastmanagement/Absicherung bestaetigt"},
-      {"type":"CheckBox","name":"PhasesVerified","caption":"Festen Phasenmodus und Fahrzeuglader bestaetigt"},
-      {"type":"CheckBox","name":"LiveControl","caption":"LIVE-STEUERUNG ERLAUBEN (nur nach allen Tests)"}
-    ]}
+    {
+      "type": "Label",
+      "caption": "Luna SmartCharge v1.2.0 - Smartphone-Kachel und separater Dashboard-Typ. Bestehende Ladefunktionen bleiben erhalten; Live weiterhin standardmaessig aus."
+    },
+    {
+      "type": "NumberSpinner",
+      "name": "LunaParentID",
+      "caption": "Kategorie-ID mit CA_LUNA_* Variablen",
+      "minimum": 1
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Energiedaten (Symcon-Variablen)",
+      "items": [
+        {
+          "type": "SelectVariable",
+          "name": "PvPowerID",
+          "caption": "PV-Produktion (W)"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "GridPowerID",
+          "caption": "Hausanschluss Netzleistung (W)"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "BatterySocID",
+          "caption": "Hausspeicher SoC (%)"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "BatteryPowerID",
+          "caption": "Hausspeicher Lade-/Entladeleistung (W)"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "HousePowerID",
+          "caption": "Hausverbrauch (W, optional)"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "HeatPumpPowerID",
+          "caption": "Waermepumpe (W, optional)"
+        },
+        {
+          "type": "SelectVariable",
+          "name": "ForecastJsonID",
+          "caption": "PV-Prognose als JSON-Slots (optional)"
+        },
+        {
+          "type": "Select",
+          "name": "PvSign",
+          "caption": "PV-Erzeugung Vorzeichen",
+          "options": [
+            {
+              "caption": "Positiv = Erzeugung",
+              "value": 1
+            },
+            {
+              "caption": "Negativ = Erzeugung",
+              "value": -1
+            }
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "GridSign",
+          "caption": "Netzleistung Vorzeichen",
+          "options": [
+            {
+              "caption": "Bezug positiv / Einspeisung negativ",
+              "value": 1
+            },
+            {
+              "caption": "Einspeisung positiv / Bezug negativ",
+              "value": -1
+            }
+          ]
+        },
+        {
+          "type": "Select",
+          "name": "BatterySign",
+          "caption": "Hausspeicherleistung Vorzeichen",
+          "options": [
+            {
+              "caption": "Entladen positiv / Laden negativ",
+              "value": 1
+            },
+            {
+              "caption": "Laden positiv / Entladen negativ",
+              "value": -1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Fahrzeug, Installation und Ladeplanung",
+      "items": [
+        {
+          "type": "Select",
+          "name": "Phases",
+          "caption": "Feste aktive Phasen (NICHT automatisch umschalten)",
+          "options": [
+            {
+              "caption": "1 Phase",
+              "value": 1
+            },
+            {
+              "caption": "3 Phasen",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "MaxCurrentA",
+          "caption": "Maximal erlaubte Stromstaerke",
+          "suffix": " A",
+          "minimum": 6,
+          "maximum": 16
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "VehicleAcMaxW",
+          "caption": "Tatsaechlich vorhandener Twingo-AC-Lader",
+          "suffix": " W",
+          "minimum": 1400,
+          "maximum": 22000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "BatteryCapacityWh",
+          "caption": "Twingo nutzbare Batteriekapazitaet",
+          "suffix": " Wh",
+          "minimum": 10000,
+          "maximum": 100000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "BatteryReservePct",
+          "caption": "Hausspeicher Mindestreserve",
+          "suffix": " %",
+          "minimum": 0,
+          "maximum": 95
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "BaseLoadForecastW",
+          "caption": "Annahme Grundlast fuer Wetterplanung",
+          "suffix": " W",
+          "minimum": 0,
+          "maximum": 15000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "ExportMarginW",
+          "caption": "Puffer fuer PV-Schwankungen",
+          "suffix": " W",
+          "minimum": 0,
+          "maximum": 2000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "MaxGridImportW",
+          "caption": "Maximaler gesamter Netzbezug am Hausanschluss (nur Software), Live >0",
+          "suffix": " W",
+          "minimum": 0,
+          "maximum": 50000
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "MaxDataAgeS",
+          "caption": "Maximales Datenalter",
+          "suffix": " s",
+          "minimum": 60,
+          "maximum": 1200
+        },
+        {
+          "type": "NumberSpinner",
+          "name": "CommandIntervalS",
+          "caption": "Mindestens zwischen Cloud-Befehlen",
+          "suffix": " s",
+          "minimum": 60,
+          "maximum": 1200
+        }
+      ]
+    },
+    {
+      "type": "ExpansionPanel",
+      "caption": "Live-Steuerung: erst nach technischer Pruefung freigeben",
+      "items": [
+        {
+          "type": "Label",
+          "caption": "ACHTUNG: Cloud-Regelung ersetzt KEIN hardwareseitiges Schutz-/Lastmanagement. Ohne alle vier Freigaben werden keine Befehle gesendet."
+        },
+        {
+          "type": "CheckBox",
+          "name": "CurrentControlVerified",
+          "caption": "API-Ladestrom mehrfach an Luna im Livebetrieb getestet"
+        },
+        {
+          "type": "CheckBox",
+          "name": "HardwareProtectionConfirmed",
+          "caption": "Unabhaengiges elektrisches Lastmanagement/Absicherung bestaetigt"
+        },
+        {
+          "type": "CheckBox",
+          "name": "PhasesVerified",
+          "caption": "Festen Phasenmodus und Fahrzeuglader bestaetigt"
+        },
+        {
+          "type": "CheckBox",
+          "name": "LiveControl",
+          "caption": "LIVE-STEUERUNG ERLAUBEN (nur nach allen Tests)"
+        }
+      ]
+    }
   ],
   "actions": [
-    {"type":"Label","caption":"Im Simulationsbetrieb werden Soll-Ampere und Begruendung berechnet, aber keine Charge-Amps-Befehle ausgeloest."}
+    {
+      "type": "Label",
+      "caption": "Im Simulationsbetrieb werden Soll-Ampere und Begruendung berechnet, aber keine Charge-Amps-Befehle ausgeloest."
+    }
   ]
 }

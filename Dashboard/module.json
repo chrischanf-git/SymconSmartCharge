@@ -1,0 +1,14 @@
+{
+  "id": "{D2D548B2-763E-4F72-B36F-C8499DB7C21A}",
+  "name": "LunaSmartChargeDashboard",
+  "type": 3,
+  "vendor": "Charge Amps / Symcon Erweiterung",
+  "aliases": [
+    "Luna SmartCharge Energie-Dashboard"
+  ],
+  "url": "",
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "LUNAD"
+}

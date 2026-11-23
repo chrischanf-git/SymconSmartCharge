@@ -7,6 +7,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../libs/VehicleModel.php';
 require_once __DIR__ . '/../libs/ChargePlanner.php';
 require_once __DIR__ . '/../libs/ChargeRegulator.php';
+require_once __DIR__ . '/../libs/UiTheme.php';
 
 class LunaSmartCharge extends IPSModule
 {
@@ -35,6 +36,11 @@ class LunaSmartCharge extends IPSModule
         $this->RegisterPropertyBoolean('CurrentControlVerified', false);
         $this->RegisterPropertyBoolean('HardwareProtectionConfirmed', false);
         $this->RegisterPropertyBoolean('PhasesVerified', false);
+        foreach (LunaUiTheme::defaults() as $key => $default) {
+            if (is_int($default)) $this->RegisterPropertyInteger($key, $default);
+            elseif (is_bool($default)) $this->RegisterPropertyBoolean($key, $default);
+            else $this->RegisterPropertyString($key, $default);
+        }
         $this->RegisterAttributeString('State', json_encode(LunaVehicleModel::freshState()));
         $this->RegisterTimer('Tick', 0, 'LUNAS_Tick($_IPS["TARGET"]);');
         $this->RegisterVariableInteger('Mode', 'Lademodus: 0=Smart, 1=Jetzt', '', 10);
@@ -49,6 +55,7 @@ class LunaSmartCharge extends IPSModule
         $this->RegisterVariableString('DataQuality', 'Datenqualitaet', '', 100);
         $this->EnableAction('Mode');
         $this->EnableAction('Paused');
+        // HTML-SDK Typ 1 (ab Symcon 7.1). Die benannte Konstante gibt es erst in neueren Versionen.
         $this->SetVisualizationType(1);
     }
 
@@ -62,18 +69,32 @@ class LunaSmartCharge extends IPSModule
 
     public function GetConfigurationForm()
     {
-        return (string)file_get_contents(__DIR__ . '/form.json');
+        $form = json_decode((string)file_get_contents(__DIR__ . '/form.json'), true);
+        if (!is_array($form)) return '{}';
+        $panel = LunaUiTheme::formPanel('Smartphone: Optik und Design');
+        $panel['items'][] = ['type' => 'Label', 'caption' => 'Vorschau der derzeit gespeicherten Farbwahl:'];
+        $panel['items'][] = ['type' => 'Image', 'image' => LunaUiTheme::previewUri($this->uiTheme()), 'width' => '430px', 'center' => true];
+        $form['elements'][] = $panel;
+        return (string)json_encode($form, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
     }
 
     public function GetVisualizationTile()
     {
         $html = (string)file_get_contents(__DIR__ . '/module.html');
-        $photo = @file_get_contents(__DIR__ . '/../imgs/renault-twingo-2026.webp');
-        $photoUri = $photo === false ? '' : 'data:image/webp;base64,' . base64_encode($photo);
+        $theme = $this->uiTheme();
+        $photoUri = LunaUiTheme::photoUri($theme, __DIR__ . '/../imgs/renault-twingo-2026.webp');
         $data = $this->buildPayload($this->state(), time());
         $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE);
-        return str_replace(['__LUNA_PHOTO__', '__LUNA_INITIAL__', '__LUNA_DEMO__'],
-            [$photoUri, $json ?: '{}', 'false'], $html);
+        return str_replace(['__LUNA_PHOTO__', '__LUNA_INITIAL__', '__LUNA_DEMO__', '__LUNA_THEME_CSS__'],
+            [$photoUri, $json ?: '{}', 'false', LunaUiTheme::css($theme)], $html);
+    }
+
+    /** Read-only JSON bridge for the separately installed Dashboard instance. */
+    public function GetDashboardData(): string
+    {
+        $payload = $this->buildPayload($this->state(), time());
+        $json = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_UNESCAPED_SLASHES);
+        return $json === false ? '{}' : $json;
     }
 
     /** Von der Kachel (HTML-SDK) ODER Symcon-Variablenaktion aufgerufen; keine Token im HTML. */
@@ -226,12 +247,14 @@ class LunaSmartCharge extends IPSModule
             $this->maybeSendCommand($state, $d, $decision, $now);
             $this->saveState($state);
             $this->outputVariables($state, $decision, $d);
-            $this->UpdateVisualizationValue(
-    json_encode(
-        $this->buildPayload($state, $now, $d, $decision),
-        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE
-    )
-);
+            // Bis inkl. Symcon 9.0 akzeptiert UpdateVisualizationValue nicht zuverlaessig PHP-Arrays.
+            // Als JSON-String senden. window.handleMessage() in module.html parst JSON bereits.
+            $payload = json_encode($this->buildPayload($state, $now, $d, $decision),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE);
+            if ($payload === false) {
+                throw new RuntimeException('SmartCharge: Visualisierungsdaten konnten nicht codiert werden.');
+            }
+            $this->UpdateVisualizationValue($payload);
         } catch (Throwable $e) {
             $this->SendDebug('TickError', $e->getMessage(), 0);
             IPS_LogMessage('LunaSmartCharge', 'Fehler: ' . $e->getMessage());
@@ -490,4 +513,15 @@ class LunaSmartCharge extends IPSModule
             'learningCapacityKwh' => $this->capacity()
         ];
     }
+    private function uiTheme(): array
+    {
+        $cfg = [];
+        foreach (LunaUiTheme::defaults() as $key => $default) {
+            if (is_int($default)) $cfg[$key] = $this->ReadPropertyInteger($key);
+            elseif (is_bool($default)) $cfg[$key] = $this->ReadPropertyBoolean($key);
+            else $cfg[$key] = $this->ReadPropertyString($key);
+        }
+        return $cfg;
+    }
+
 }

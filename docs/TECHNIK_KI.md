@@ -1,3 +1,26 @@
+# TECHNISCHE UEBERGABE - SmartCharge v1.2.0 (23.11.2026)
+
+## Neue Architektur
+
+- **Controller-Modul**: `SmartCharge/module.php` (`LunaSmartCharge`, GUID `{0F06F87B-A351-4B29-98A1-6DADE5C75CE0}`, Prefix `LUNAS`). Bestehende Instanz ID **14264**. `GetVisualizationTile()` liefert **nur die kompakte Smartphone-Start/Details/Ladungen-App** aus `SmartCharge/module.html`; alle alten IDs, JSON-Attribute, 60-s-Controller-Tick, `RequestAction`-Steuerung, Live-Freigaben, Sessions, Forecast und Lernmodell bleiben erhalten.
+- **Dashboard-Modul**: neu `Dashboard/` mit `module.php`, `module.json`, `form.json`, `module.html` (`LunaSmartChargeDashboard`, Prefix `LUNAD`). Eigene Instanz, Property `ControllerInstanceID` = 14264. **Read-only**. Einmal pro Minute ruft es `LUNAS_GetDashboardData(14264)` auf, eine neue **oeffentliche** Methode im Controller, die den bisherigen `buildPayload()` als JSON-String zurueckgibt. Kein eigener Sensor-Cloudzugriff, keine `RequestAction` an die Wallbox; Tick sendet JSON-String per `UpdateVisualizationValue()`. Muss als separate Kachel in die Visualisierung aufgenommen werden.
+- **Gemeinsames Designmodul**: `libs/UiTheme.php` (CSS-Sanitization, Farbkontrast, maximal 2-MB Bildmedium, fallback auf mitgeliefertes WebP, kleine SVG-Vorschau in den Konfigurationsformularen). `Ui*`-Properties getrennt je Instanz. `SelectColor` schreibt CSS-Hexstring, `SelectMedia` Bildmedium-ID. DesignCSS wird **einmalig** in der Kachel initial injiziert; nach Konfigurationsaenderung Kachel neu laden. **Keine dynamische JS-/CSS-Injektion aus unkontrollierten Werten**.
+- **Mobile Navigation**: drei interne Panels `#screen-start`, `#screen-details`, `#screen-history` mit `.tab-link`. Start nur Fahrzeuguebersicht (SoC/km/Leistung/Energie), Smart/Jetzt, Abfahrt, `#home-manual`. Alle weiteren Infos inklusive Pause, Energie/Forecast und Korrekturen auf Deep-Level; modale Fahrzeugdatenerfassung hat weiterhin Ueberspringen, spaeteres Nachtragen, manuelle Ladesitzungen.
+- **Vorschauen und Tests**: `docs/previews/SmartCharge_Mobil_Vorschau.html`, `SmartCharge_Desktop_Vorschau.html`, `SmartCharge_Designwerkstatt.html` (autark mit eingebetteten beiden Screens). `tests/test_ui.py` Playwright (inkl. Deep-Link-Navigation, manuelle Eingaben, Dashboard read-only), `tests/mock_module.php` (beide Instanztypen und CSS-Konfig), `tests/run_tests.php` Modell / Controller.
+
+## Inbetriebnahme-Kontext
+
+Aus Diagnose 22.11.2026: PV 26684, Netz 37583, Speicher-SoC 47921, Speicher-Watt 40466, Hausverbrauch 25505; Temperatur/Heizung noch nicht verknuepft; Wetter JSON noch offen. Controller 14264, Luna-Kategorie 25848, API-Skript 12864. Speicher-Watt wird seit 22.11.2026 laut Nutzer alle 120s aktualisiert, Datenalter-Maximum 210s. **Simulationsbetrieb nicht deaktivieren**, bevor Stromsteuerbefehle und Hardwaregrenzen getestet sind.
+
+## Update-Regeln
+
+- `module.json` GUID des Controllers **nicht** aendern (Instanz und persistente Fahrtdaten behalten!). `Dashboard` ist ein neuer eigenstaendiger Modultyp mit eigener GUID.
+- Weitere Ordner in der Repository-Wurzel **nur mit `module.json`**, ausser den Symcon-Ausnahmen `docs`, `libs`, `imgs`, `tests`, `actions`; keinen Top-Level-Ordner `previews` anlegen.
+- HTML-SDK ab 7.1: `SetVisualizationType(1)`, `UpdateVisualizationValue(JSON_STRING)`, nicht PHP-Array (alte Symcon-Versionen werfen Datentypfehler). `GetDashboardData()` darf niemals schalten.
+- Kein Token/WebHook im HTML; UI uses `requestAction('UI',...)`; Dashboard kann nicht schreiben.
+
+---
+
 # TECHNISCHE PROJEKTÜBERGABE – Charge Amps Luna / SmartCharge
 
 **Stand:** 22.11.2026 · **Codepaket:** 1.1 · **Qualität:** Quellcode + automatisierte Rechen-, Modul-Mock- und Browser-Vorschautests erfolgreich; **kein** Symcon-/Charge-Amps-Live-End-to-End-Test. Standard **Dry-Run**.
@@ -78,7 +101,7 @@ Lernen **nur** auf belegter Fahrt ohne unprotokolliertes externes Laden mit tats
 
 ## UI / Kommunikation
 
-Symcon ≥7.1 HTML-SDK: `GetVisualizationTile()` injiziert initial State und komprimiertes Twingo-Bild, `UpdateVisualizationValue(payload)` sendet neue Werte bei jedem Tick; JS `window.handleMessage` ersetzt State und rendert. Useraktion via SDK `requestAction('UI', JSON.stringify({action, data}))`; zugelassen: `mode`, `pause`, `skip`, `trip`, `entry`, `createManual`, `refresh`. Kein Client-Hook-Token. Offline-Demo mit `DEMO=true` simuliert Änderungen lokal.
+Symcon ≥7.1 HTML-SDK: `GetVisualizationTile()` injiziert initial State und komprimiertes Twingo-Bild, `UpdateVisualizationValue(json_encode(payload))` sendet neue Werte bei jedem Tick; JS `window.handleMessage` ersetzt State und rendert. Useraktion via SDK `requestAction('UI', JSON.stringify({action, data}))`; zugelassen: `mode`, `pause`, `skip`, `trip`, `entry`, `createManual`, `refresh`. Kein Client-Hook-Token. Offline-Demo mit `DEMO=true` simuliert Änderungen lokal.
 
 ## Offene technische Schritte in dieser Installation
 
@@ -101,3 +124,12 @@ php -l SmartCharge/module.php
 ```
 
 **Weiterentwicklungsregel:** Keine neue API-Authentifizierung implementieren, bevor das bestehende Skript 12864 geprüft ist; keine physischen Strombegrenzungen/Live-Freigaben ohne konkrete gemessene Gegenprüfung. Backend-Modelle und UI getrennt erweitern, Flags/Status beibehalten, Testfälle zu allen Änderungen ergänzen, Symcon-HTML-SDK-Semantik prüfen.
+
+
+## Strukturfix v1.1.3
+
+Die interaktiven Demos wurden von `previews/` im Repository-Hauptverzeichnis
+nach `docs/previews/` verschoben. Symcon validiert alle nicht ausgenommenen
+Hauptordner als eigenstaendige Module und verlangt dort `module.json`.
+Die erlaubten Hauptordner sind: `docs`, `libs`, `imgs`, `tests`, `actions`,
+sowie tatsaechliche Modulordner (hier `SmartCharge`).

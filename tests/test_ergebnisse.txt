@@ -20,5 +20,9 @@ OK  Manuelle unplausible Energiewerte werden abgewiesen
 OK  PV-Prognose veraendert rechtzeitig den Abfahrtslade-Puffer
 ALLE TESTS BESTANDEN
 MOCK MODUL: Start, Tile, RequestAction, Manualhistorie, Simulation BESTANDEN
-Mobile UI: all actions including skip, editing, adding charging sessions PASSED
-Desktop UI PASSED
+MOCK DASHBOARD: separate module, payload, theme and read-only behavior PASSED
+PASS: Smartphone start-only contents, deep views, mode, skip, later entry, history, manual charge
+PASS: independent read-only dashboard and metrics
+No syntax errors detected in SmartCharge/module.php
+No syntax errors detected in Dashboard/module.php
+No syntax errors detected in libs/UiTheme.php

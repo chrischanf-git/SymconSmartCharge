@@ -1,12 +1,91 @@
+# SmartCharge v1.2.0 - Smartphone und Dashboard separat
+
+**Stand: 23.11.2026.** Dieses Paket ersetzt die bisherige UI aus v1.1.4, bewahrt aber den bestehenden SmartCharge-Controller und seine gespeicherten Fahrzeug-/Energiedaten. **Keine neue Charge-Amps-Anmeldung, keine zweite Ladesteuerung, kein Livebetrieb durch das Update.**
+
+## Was in v1.2.0 neu ist
+
+- **Bestehende Instanz `Luna SmartCharge PV-Lademanager`** (in dieser Installation ID **14264**) zeigt jetzt eine **eigenstaendige Smartphone-Oberflaeche**. Die **Startseite** enthaelt nur Fahrzeuguebersicht, Ladeleistung/geladene Energie, Wahl Smart/Jetzt, naechste Abfahrt und **Ladung nachtragen**. Ueber die untere Navigation gelangen Nutzer zu **Details** (Hausenergie, Regelung, Lernen, Pause/Fahrzeugdaten) und **Ladungen** (Historie, Korrekturen).
+- **Neuer, zusaetzlicher Modultyp `Luna SmartCharge Energie-Dashboard`** (Ordner `Dashboard/`). Diesen als **separate Symcon-Instanz** anlegen. In deren Konfiguration `ControllerInstanceID` auf die bestehende SmartCharge-Instanz (hier **14264**) setzen. Dashboard und mobile Oberflaeche sind zwei verschiedene Kacheln. Das Dashboard liest nur den Controller und ist absichtlich **schreibgeschuetzt**.
+- Beide Instanzen koennen **unabhaengig optisch eingestellt werden**: Akzent-, Hintergrund-, Karten-, Text-, Rahmen- und Sekundaerfarbe; Rundungen, Rahmenstaerke, Kartenabstand, Bildhoehe, Bildposition, `cover`/`contain`, Foto anzeigen/verbergen und eigenes Bild aus einem **Symcon-Bildmedium**. Default-Foto ist der gruene Twingo aus `imgs/renault-twingo-2026.webp`.
+- Unter **Optik und Design** der Instanz wird nach **Uebernehmen** eine **Farbvorschau** in der Konsole dargestellt. Eine umfangreichere interaktive Demo mit Farbwaehler liegt unter `docs/previews/SmartCharge_Designwerkstatt.html`. Die Demo nutzt Beispieldaten und steuert keine echte Wallbox.
+- Individuelle Bildmedien: nur JPG, PNG oder WebP mit **maximal 2 MB**. Bei ungueltigem oder zu grossem Medium erscheint sicherheitshalber das mitgelieferte Twingo-Foto. Keine externen Bild-URLs, Tokens oder Scripts in der Darstellung.
+- Controllerdaten werden weiterhin zyklisch alle **60 Sekunden** verarbeitet. Das neue Dashboard liest den Controller ebenfalls nur alle **60 Sekunden**, ohne eigene Cloudabfragen. Die vorhandenen `RequestAction`-Stellbefehle laufen nur ueber den Controller und bleiben durch bisherige Freigaben gesperrt.
+
+## Update der bestehenden GitHub-Installation
+
+1. **Vorher eine Sicherung** deiner laufenden Symcon-Installation und ggf. des Git-Repositories anlegen.
+2. Dieses ZIP entpacken. `library.json`, `SmartCharge/`, `Dashboard/`, `libs/`, `imgs/`, `docs/`, `tests/` muessen **direkt in der Wurzel** des Git-Repositories stehen. `docs/previews/` ist erlaubt; ein `previews/`-Ordner **direkt neben `library.json`** erzeugt wieder einen Symcon-Modulfehler.
+3. Auf GitHub die neuen und geaenderten Dateien hochladen und committen. `SmartCharge/module.php`, `SmartCharge/module.html`, `SmartCharge/form.json`, `library.json` und `libs/UiTheme.php` dabei aktualisieren. `Dashboard/` **neu** hinzufuegen. Vorhandene Instanz **nicht loeschen**.
+4. In Symcon unter `Kern-Instanzen > Modules` das bestehende Repository **aktualisieren**. Danach die **bisherige SmartCharge-Instanz ID 14264** einmal oeffnen, das neue Design-Panel pruefen und **Uebernehmen**. Deine alten Messwert-IDs, Fahrten, Modus/Abfahrtsziele und bisherigen Sicherheitsschalter werden dadurch nicht geloescht.
+5. Visualisierung neu laden: Die existierende **SmartCharge-Kachel** ist jetzt die Smartphone-App mit `Start / Details / Ladungen`.
+6. **Neue Instanz anlegen**: `Luna SmartCharge Energie-Dashboard`, bevorzugt unter derselben Wallbox-Kategorie. Dort `SmartCharge-Controller` auf **14264** setzen, **Uebernehmen** klicken und die **Dashboard-Instanz als zweite, eigenstaendige Kachel** zur Visualisierung hinzufuegen.
+7. Optik bei **jeder der beiden Instanzen** separat einstellen. Nach dem Speichern die zugehoerige Kachel neu oeffnen, damit das aktualisierte Bild und CSS geladen werden.
+8. **Simulationsbetrieb beibehalten**, bis Stromsteuerung, Sensorvorzeichen, Datenalter, Forecast und elektrische Schutzfunktionen geprueft wurden.
+
+### Aktuell bekannte Variablen-IDs dieser Installation (aus Diagnose 22.11.2026)
+
+| Signal | ID | Beschreibung |
+|---|---:|---|
+| SmartCharge-Controller | `14264` | Bestehende Instanz, nicht neu anlegen |
+| Charge-Amps-Variablen | Kategorie `25848` | Bestehendes Luna-Laufsystem |
+| PV-Leistung | `26684` | W, Produktion positiv |
+| Netzleistung | `37583` | W, Bezug positiv |
+| Hausspeicher-SoC | `47921` | Prozent |
+| Hausspeicherleistung | `40466` | W, soll nun alle 120 s aktualisiert werden |
+| Hausverbrauch optional | `25505` | W |
+| Waermepumpe optional | noch nicht zugewiesen | W |
+| Wetterprognose JSON | noch nicht zugewiesen | Zeit-Slots erforderlich |
+
+### Hinweis zur echten Darstellung in Symcon
+
+Die Smartphone-Kachel bleibt auch am PC bewusst kompakt wie eine mobile App. Das zusaetzliche Dashboard ist fuer groessere Bildschirme ausgelegt. Farb-, Bild- und Rahmenoptionen veraendern nur die **Darstellung**, nicht die Laderegelung. Die dynamische UI wird mit dem **HTML-SDK ab Symcon 7.1** bereitgestellt. **Keine neuen WebHooks, keine geheimen Tokens im Browser.**
+
+---
+
+## Historische Einrichtung und Konzeptdokumentation (Stand bis v1.1.4)
+
+
+## Bild- und Layoutaktualisierung v1.1.4 (22.11.2026)
+
+- Das Renault-Twingo-Bild in `imgs/renault-twingo-2026.webp` wurde durch das vom Anwender bereitgestellte Motiv mit gruenem Hintergrund ersetzt und fuer die mobile Anzeige zugeschnitten/komprimiert.
+- In `SmartCharge/module.html` wurden nur Bildposition, Bildhintergrund und der Status-Badge angepasst. Alle Aktionen, Variablen, Sensor-Verknuepfungen und Reglerfunktionen sind gegenueber v1.1.3 unveraendert.
+- Nach dem GitHub-Update die Modulverwaltung aktualisieren, die Kachel einmal neu laden und ggf. den Visualisierungs-Cache leeren. Bestehende Instanz **nicht loeschen**: Zustand und eingetragene Variablen bleiben erhalten.
+- Die Visualisierung liest das Bild in `GetVisualizationTile()` serverseitig ein. Fuer die Anzeige der neuen Grafik muss die Kachel neu geladen werden.
+- `docs/previews` bleibt im `docs`-Ordner und darf nicht als `previews` in der Repository-Wurzel liegen.
+
 # Charge Amps Luna SmartCharge – Einrichtung und Inbetriebnahme
 
-**Version:** 1.1 · **Stand:** 22.11.2026 · **Status:** Fertig programmiertes Erstpaket, **nicht an einer echten Symcon-/Charge-Amps-Anlage getestet. Standard: SIMULATION.**
+**Urspruengliche Erstversion:** 1.1.3 · **Stand:** 22.11.2026 · **Status:** Fertig programmiertes Erstpaket, **nicht an einer echten Symcon-/Charge-Amps-Anlage getestet. Standard: SIMULATION.**
 
-Die neue modulare Erweiterung ergänzt vorhandene Skripte und verändert diese nicht. Sie enthält eine grüne Smartphone-/Desktop-Kachel mit dem bereitgestellten Foto des grünen Renault Twingo (2026). Die Kachel nutzt das **Symcon-HTML-SDK ab Symcon 7.1**, damit Steueraktionen ohne einen im Browser sichtbaren Geheim-Token über die Anmeldung der Visualisierung laufen.
+Die ursprüngliche modulare Erweiterung ergaenzte vorhandene Skripte und veraenderte diese nicht. Ab v1.2.0 sind Smartphone- und Desktop-Dashboard zwei getrennte Kacheln. Vorher enthielt sie eine gruene Smartphone-/Desktop-Kachel mit dem bereitgestellten Foto des grünen Renault Twingo (2026). Die Kachel nutzt das **Symcon-HTML-SDK ab Symcon 7.1**, damit Steueraktionen ohne einen im Browser sichtbaren Geheim-Token über die Anmeldung der Visualisierung laufen.
+
+### Kompatibilitaetshinweis zu Symcon 7.1-9.0
+
+Die vorherige Modulversion 1.1 verwendete im `Create()`-Aufruf die Konstante `INSTANCE_VISUALIZATION_TYPE_HTML`, die in aelteren Symcon-Versionen noch nicht definiert ist. In Version **1.1.1** wird deshalb der kompatible Wert `1` an `SetVisualizationType()` uebergeben. Das HTML-SDK und die Methode `SetVisualizationType(1)` werden ab Symcon 7.1 unterstuetzt. Das Modul startet weiterhin ohne Live-Steuerung.
+
+### Kompatibilitaetsfix 1.1.2: Instanzerstellung / Visualisierungsdaten
+
+Beim Anlegen der Instanz trat auf aelteren Symcon-Versionen die Meldung `Cannot auto-convert value for parameter Value (Type does not match)` auf, weil `UpdateVisualizationValue()` ein PHP-Array anstatt eines skalaren JSON-Werts uebergeben bekam. **Version 1.1.2** codiert das Statusobjekt vor dem Senden mit `json_encode()`. `handleMessage()` im HTML kann JSON-Strings bereits verarbeiten. Die Stufenlogik und der sichere Simulationsmodus bleiben unveraendert. Mit einem streng typisierten Mock (Simulation der aelteren HTML-SDK-Schnittstelle) wurde dieser Fall nun ebenfalls getestet.
+
+### Strukturfix 1.1.3: Symcon-Modulverwaltung / previews
+
+Symcon behandelt unbekannte Ordner direkt neben `library.json` als Module.
+Der bisherige Hauptordner `previews/` wurde deshalb als fehlerhaftes Modul
+(`module.json fehlt`) erkannt. In 1.1.3 liegen die Demo-Dateien unter
+`docs/previews/`, das von Symcon erlaubt ist. Alle Echtzeit- und
+Wallboxfunktionen bleiben unveraendert.
+
+**Wichtig bei einem bereits hochgeladenen GitHub-Repository:** Der alte
+Ordner `previews/` im Repository-Hauptverzeichnis muss **geloescht bzw.
+nach `docs/previews/` verschoben** werden. Das Hochladen einer neuen ZIP-Datei
+allein entfernt diesen alten Ordner **nicht**. In der GitHub-Webansicht
+kann man mit der Taste `.` den Web-Editor oeffnen, den Ordner verschieben
+und die Aenderung committen. Danach Symcon -> Modules -> Auf
+Aktualisierung pruefen.
 
 ## 1. Was bereits funktioniert (Quellcode / Vorschau)
 
-- Mobile & Desktop als **eine responsive HTML-SDK-Visualisierung**, inkl. Foto, grüner Akzentfarbe.
+- **Seit v1.2.0 getrennt:** SmartCharge-Controller = kompakte mobile UI; neue Dashboard-Instanz = eigenstaendige Read-only-Kachel. Vorher war es eine responsive HTML-SDK-Visualisierung.
 - Beim Erkennen einer physisch plausiblen Steckverbindung: Hinweis zur Eingabe von Kilometerstand und **abgelesenem** Fahrzeug-Akku-SoC. Bei offener Kachel erscheint die Eingabemaske; eine geschlossene Smartphone-App kann nicht selbst geöffnet werden.
 - **Überspringen** und jederzeit **später eintragen**, inkl. bereits abgeschlossener Sitzungen (bis zu 50 gespeicherte Sitzungen; letzte 8 in Liste). Auch **bisher fehlende Ladesitzungen vollständig manuell anlegen** und AC-kWh bei vorhandenen Sitzungen nachträglich korrigieren.
 - Referenzzeitpunkt auswählen: **Beim Anstecken** oder **Gerade jetzt** (nachträglich eingegebener aktueller Fahrzeug-SoC). Dadurch werden zuvor geladene kWh nicht noch einmal gezählt. Für vergangene Sitzungen auch **am Ende abgelesenen SoC** erfassen.
@@ -41,7 +120,7 @@ Das vorhandene Skript `12864` muss weiter **separat zyklisch** über Symcon die 
 2. Symcon-Konsole öffnen → **Kern-Instanzen → Modules / Modulverwaltung** → „+“ → Repository-URL eintragen. Symcon installiert die Bibliothek direkt von Git.
 3. Im Objektbaum unter deiner Charge-Amps-Kategorie **Neue Instanz** → **Luna SmartCharge PV-Lademanager** auswählen. Die neue Instanz ist unabhängig vom bestehenden Skript.
 4. Instanzeinstellungen öffnen; `LunaParentID` zunächst auf `25848` belassen und alle echten Sensoren zuordnen (siehe unten). Änderungen mit **Übernehmen** bestätigen.
-5. Die Instanz als **Kachel** in deiner Symcon-Kachelvisualisierung einfügen. Die Darstellung ist responsive für Handy und Desktop.
+5. Die bestehende Controller-Instanz als **Smartphone-Kachel** einfuegen. Fuer das separate Dashboard eine **zweite Instanz vom Modultyp Energie-Dashboard** anlegen und mit der ersten verknuepfen (siehe Abschnitt v1.2.0 oben).
 
 **Alternativ lokale Modul-Entwicklung:** Die Bibliothek kann in den Modulordner der jeweiligen Symcon-Installation kopiert werden; danach muss der Symcon-Dienst für die Registrierung eines neuen Moduls neu gestartet werden. Der Pfad hängt von Plattform und Symcon-Installation ab, auf SymBox ist der Git-Weg deutlich einfacher. Verzeichnisse nicht einzeln in die Script-Konsole einfügen: `module.php` ist **kein normales PHP-Skript**, sondern eine `IPSModule`-Klasse.
 
@@ -135,7 +214,7 @@ Alternatives Beispiel: `[ {"time":"2026-11-23T11:00:00+01:00", "pvW":4500}, {"ti
 - `libs/ChargePlanner.php` – Zeitreihen-PV-Prognose.
 - `libs/ChargeRegulator.php` – Smart-/Jetzt-Entscheidungslogik.
 - `imgs/renault-twingo-2026.webp` – komprimierter Zuschnitt aus deinem hochgeladenen Foto.
-- `previews/*.html` – offline bedienbare Demos mit Beispieldaten, ohne echte Wallboxsteuerung.
+- `docs/previews/*.html` – offline bedienbare Demos mit Beispieldaten, ohne echte Wallboxsteuerung.
 - `tests/run_tests.php` – lokale PHP-Rechentests (kein Symcon-/Cloud-End-to-End-Test).
 - `tests/mock_module.php` – Modul-Stubs (ohne echtes Symcon).
 - `tests/test_ui.py` – getestete Smartphone-/Desktop-Interaktionen in Chromium.

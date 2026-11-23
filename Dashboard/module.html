@@ -1,0 +1,93 @@
+<style>
+:root{--bg:#0b100f;--surface:#151d1a;--surface2:#1b2921;--text:#eff7f1;--muted:#91a59b;--line:#304137;--accent:#47e19c;--accent-ink:#062217;--radius:20px;--border-size:1px;--card-gap:13px;--photo-height:220px;--photo-fit:cover;--photo-pos:center}
+*{box-sizing:border-box}html,body{background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;margin:0}button{font:inherit}
+.board{max-width:1300px;margin:0 auto;padding:24px 24px 38px}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:25px}
+.brand{display:flex;align-items:center;gap:13px}.brand-mark{width:45px;height:45px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:24px;font-weight:900}.eyebrow{text-transform:uppercase;font-size:10px;letter-spacing:.17em;color:var(--accent);font-weight:800}.title{font-size:27px;font-weight:900;letter-spacing:-.055em;line-height:1.17}.sub{font-size:11px;color:var(--muted)}.stamp{display:flex;align-items:center;gap:10px}.pill{border:1px solid var(--line);padding:8px 13px;border-radius:50px;color:var(--accent);font-size:11px;font-weight:800}.pill.live{background:#134126}.time{font-size:12px;color:var(--muted)}
+.error{display:none;border:1px solid #ab5c52;border-radius:var(--radius);background:#3b191b;padding:18px;margin-bottom:20px;color:#fff0ea}
+.card{background:var(--surface);border:var(--border-size) solid var(--line);border-radius:var(--radius);padding:20px;min-width:0;overflow:hidden}.header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:18px}.header h2{margin:0;font-size:16px;font-weight:850;letter-spacing:-.02em}.tag{font-size:11px;color:var(--muted)}
+.top-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:var(--card-gap);margin-bottom:var(--card-gap)}.energy-wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.kpi{padding:18px 15px;border:1px solid var(--line);background:var(--bg);border-radius:calc(var(--radius) - 4px);min-width:0}.kpi .small{font-size:11px;color:var(--muted);margin-bottom:11px}.kpi .ico{font-size:18px;color:var(--accent);margin-bottom:14px}.kpi .value{font-size:31px;font-weight:900;letter-spacing:-.055em;white-space:nowrap}.kpi .value small{font-size:13px;color:var(--muted);font-weight:500;letter-spacing:0}.kpi .hint{color:var(--muted);font-size:10px;margin-top:6px}
+.car-card{display:grid;grid-template-columns:43% 57%;gap:0;padding:0}.car-card .photo{height:var(--photo-height);min-height:175px;background:#003e36;position:relative;overflow:hidden}.photo img{object-fit:var(--photo-fit);object-position:center var(--photo-pos);width:100%;height:100%;display:block}.car-detail{padding:20px 19px;display:flex;flex-direction:column;justify-content:space-between;gap:6px}.car-detail .small{font-size:10px;color:var(--accent);font-weight:850;letter-spacing:.13em}.car-detail .large{font-size:33px;line-height:1.1;font-weight:900;letter-spacing:-.05em}.car-detail .large small{font-size:14px;color:var(--muted);font-weight:500}.car-stats{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:9px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.car-stats strong{color:var(--text);font-size:15px}
+.content{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,.88fr);gap:var(--card-gap)}.column{display:flex;flex-direction:column;gap:var(--card-gap);min-width:0}
+.flow{display:grid;gap:17px}.flow-row{display:grid;grid-template-columns:122px 1fr 75px;gap:13px;align-items:center}.flow-row .label{font-size:12px;color:var(--muted)}.track{height:12px;background:var(--bg);border-radius:22px;border:1px solid var(--line);overflow:hidden}.bar{height:100%;width:0;background:var(--accent);border-radius:20px;transition:width .3s}.bar.cool{background:#80b89a}.bar.soft{background:#4c906f}.bar.warn{background:#d0ac68}.flow-value{text-align:right;font-size:12px;font-weight:850}.flow-foot{display:flex;justify-content:space-between;gap:10px;margin-top:20px;padding:14px;background:var(--bg);border:1px solid var(--line);border-radius:calc(var(--radius) - 6px);font-size:11px;color:var(--muted)}.flow-foot b{font-size:13px;color:var(--text)}
+.plan{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.stat{padding:15px;background:var(--bg);border:1px solid var(--line);border-radius:calc(var(--radius) - 6px)}.stat-label{font-size:11px;color:var(--muted)}.stat-value{font-size:23px;font-weight:900;letter-spacing:-.04em;margin-top:6px}.stat-value small{color:var(--muted);font-size:11px;font-weight:550;letter-spacing:0}.reason{padding:15px 17px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:calc(var(--radius) - 6px);margin-top:13px;background:var(--bg);font-size:12px}.reason b{display:block;color:var(--accent);font-size:13px;margin-bottom:3px}.reason p{margin:0;color:var(--muted)}.foot{font-size:11px;color:var(--muted);margin-top:12px}
+.trip-time{font-size:25px;font-weight:900;letter-spacing:-.035em;margin:6px 0 16px}.trip-line{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);margin:9px 0}.trip-line strong{font-size:14px;color:var(--text)}.progress{background:var(--line);height:9px;border-radius:30px;overflow:hidden;margin:15px 0}.progress>div{height:100%;background:var(--accent);width:0%;border-radius:30px}.notice{margin-top:12px;padding:11px 12px;border:1px solid var(--line);border-radius:calc(var(--radius) - 8px);color:var(--muted);font-size:11px;background:var(--bg)}
+.learn-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.learn-grid .stat-value{font-size:21px}.history-table{width:100%;border-collapse:collapse;font-size:11px}.history-table th{text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-size:10px;font-weight:750;text-align:left;border-bottom:1px solid var(--line);padding:8px 0}.history-table td{padding:10px 0;border-bottom:1px solid var(--line)}.history-table .none{color:var(--muted);text-align:left}.additional{display:grid;grid-template-columns:1fr 1fr;gap:9px}.additional .cell{background:var(--bg);border-radius:calc(var(--radius) - 6px);padding:11px}.additional .cell small{display:block;color:var(--muted);font-size:11px}.additional .cell strong{font-size:14px}
+@media(max-width:1120px){.top-grid{grid-template-columns:1fr}.car-card .photo{max-height:200px}.content{grid-template-columns:1fr 1fr}}
+@media(max-width:800px){.board{padding:15px}.top{flex-wrap:wrap}.content{grid-template-columns:1fr}.energy-wrap{grid-template-columns:1fr 1fr}.car-card{grid-template-columns:45% 55%}.title{font-size:23px}}
+@media(max-width:410px){.energy-wrap{gap:7px}.kpi{padding:13px 10px}.kpi .value{font-size:25px}.plan{grid-template-columns:1fr 1fr}.flow-row{grid-template-columns:90px 1fr 55px;gap:5px}.flow-value{font-size:11px}.car-detail{padding:13px}.car-detail .large{font-size:25px}}
+</style>
+<style>__LUNA_THEME_CSS__</style>
+<div class="board">
+ <header class="top"><div class="brand"><div class="brand-mark">ϟ</div><div><div class="eyebrow">LUNA SMARTCHARGE / ENERGIE</div><div class="title">Energie-Dashboard</div><div class="sub">Haus, Photovoltaik und Twingo auf einen Blick</div></div></div><div class="stamp"><span class="pill" id="run-state">SIMULATION</span><span class="time" id="updated">--</span></div></header>
+ <div class="error" id="error"></div>
+ <div class="top-grid">
+  <section class="card"><div class="header"><h2>Hausenergie</h2><span class="tag" id="quality">--</span></div><div class="energy-wrap">
+   <div class="kpi"><div class="ico">&#9728;</div><div class="small">PV-Produktion</div><div class="value"><span id="pv">--</span> <small>kW</small></div><div class="hint">Solarertrag jetzt</div></div>
+   <div class="kpi"><div class="ico">&#8962;</div><div class="small">Netzleistung</div><div class="value"><span id="grid">--</span> <small>kW</small></div><div class="hint" id="net-caption">Bezug / Einspeisung</div></div>
+   <div class="kpi"><div class="ico">&#9647;</div><div class="small">Hausspeicher</div><div class="value"><span id="battery">--</span> <small>%</small></div><div class="hint" id="reserve">Reserve -- %</div></div>
+   <div class="kpi"><div class="ico">&#9889;</div><div class="small">Wallbox</div><div class="value"><span id="charging">--</span> <small>kW</small></div><div class="hint" id="connector">--</div></div>
+  </div></section>
+  <section class="card car-card"><div class="photo"><img src="__LUNA_PHOTO__" alt="Renault Twingo E-Tech 2026"></div><div class="car-detail"><div class="small">FAHRZEUG / TWINGO E-TECH</div><div><div class="large"><span id="range">--</span> <small>km</small></div><div class="sub">Reichweite (gesch&auml;tzt)</div></div><div class="car-stats"><span>Akku <strong id="soc">-- %</strong></span><span>Geladen <strong id="ac-energy">--</strong> kWh</span></div><div class="sub" id="vehicle-state">--</div></div></section>
+ </div>
+ <div class="content">
+  <div class="column">
+   <section class="card"><div class="header"><h2>Aktuelle Energiefl&uuml;sse</h2><span class="tag">Livewerte aus Symcon</span></div><div class="flow">
+     <div class="flow-row"><div class="label">Photovoltaik</div><div class="track"><div class="bar" id="bar-pv"></div></div><div class="flow-value" id="flow-pv">--</div></div>
+     <div class="flow-row"><div class="label">Hausverbrauch</div><div class="track"><div class="bar cool" id="bar-house"></div></div><div class="flow-value" id="flow-house">--</div></div>
+     <div class="flow-row"><div class="label">W&auml;rmepumpe</div><div class="track"><div class="bar soft" id="bar-wp"></div></div><div class="flow-value" id="flow-wp">--</div></div>
+     <div class="flow-row"><div class="label">Wallbox</div><div class="track"><div class="bar" id="bar-wall"></div></div><div class="flow-value" id="flow-wall">--</div></div>
+     <div class="flow-row"><div class="label">Netzbezug</div><div class="track"><div class="bar warn" id="bar-grid"></div></div><div class="flow-value" id="flow-grid">--</div></div>
+    </div><div class="flow-foot"><div>Speicherleistung <b id="battery-power">--</b></div><div>Aktuelle Stromgrenze <b id="current">--</b></div></div></section>
+   <section class="card"><div class="header"><h2>Laderegelung und Prognose</h2><span class="tag" id="mode">--</span></div><div class="plan"><div class="stat"><div class="stat-label">SmartCharge-Soll</div><div class="stat-value"><span id="target-current">0</span> <small>A</small></div></div><div class="stat"><div class="stat-label">PV bis Abfahrt</div><div class="stat-value"><span id="forecast">--</span> <small>kWh</small></div></div><div class="stat"><div class="stat-label">Noch ben&ouml;tigt</div><div class="stat-value"><span id="needed">--</span> <small>kWh AC</small></div></div></div><div class="reason"><b id="decision-title">Ladeentscheidung</b><p id="reason">--</p></div><div class="foot" id="live-note"></div></section>
+   <section class="card"><div class="header"><h2>Weitere Messwerte</h2><span class="tag">Zur Diagnose</span></div><div class="additional"><div class="cell"><small>W&auml;rmepumpe</small><strong id="detail-heat">--</strong></div><div class="cell"><small>Hausverbrauch</small><strong id="detail-house">--</strong></div><div class="cell"><small>Messwertstatus</small><strong id="detail-quality">--</strong></div><div class="cell"><small>Luna Connector</small><strong id="detail-status">--</strong></div></div></section>
+  </div>
+  <div class="column">
+   <section class="card"><div class="header"><h2>N&auml;chste Fahrt</h2><span class="tag">Abfahrtsgarantie</span></div><div class="trip-time" id="departure">--</div><div class="trip-line"><span>Geplante Fahrstrecke</span><strong id="trip-km">--</strong></div><div class="trip-line"><span>Berechnetes Ladeziel</span><strong id="trip-target">--</strong></div><div class="progress"><div id="trip-progress"></div></div><div class="notice" id="goal-notice">Fahrzeugdaten f&uuml;r die Abfahrtsplanung im Smartphone eintragen.</div></section>
+   <section class="card"><div class="header"><h2>Lernendes Fahrzeugmodell</h2><span class="tag">Sch&auml;tzung</span></div><div class="learn-grid"><div class="stat"><div class="stat-label">Verbrauch</div><div class="stat-value"><span id="consumption">--</span> <small>kWh/100 km</small></div></div><div class="stat"><div class="stat-label">Ladeeffizienz</div><div class="stat-value"><span id="efficiency">--</span> <small>%</small></div></div></div><p class="foot" id="sample-count"></p></section>
+   <section class="card"><div class="header"><h2>Letzte Ladungen</h2><span class="tag">Read-only</span></div><table class="history-table"><thead><tr><th>Datum</th><th>AC-Energie</th><th>Start-SoC</th></tr></thead><tbody id="history"><tr><td colspan="3" class="none">Noch keine Sitzungen vorhanden.</td></tr></tbody></table><p class="foot">Erfassung und Korrekturen in der Smartphone-Kachel unter Ladungen.</p></section>
+  </div>
+ </div>
+</div>
+<script>
+(function(){
+'use strict';
+const DEMO=__LUNA_DEMO__;
+let data=__LUNA_INITIAL__;
+const $=id=>document.getElementById(id);
+const fmt=(v,d=1)=>typeof v==='number'&&Number.isFinite(v)?v.toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d}):'--';
+const txt=(id,s)=>{$(id).textContent=s};
+const kw=w=>typeof w==='number'?fmt(Math.abs(w)/1000,1)+' kW':'--';
+function timeFmt(t){return t?new Date(t*1000).toLocaleString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})+' Uhr':'Nicht festgelegt'}
+function render(){
+ const s=data||{};
+ $('error').style.display=s.error?'block':'none';$('error').textContent=s.error||'';
+ const est=s.estimate||{},valid=est.valid===true;
+ txt('run-state',DEMO?'VORSCHAU':s.isLive?'LIVE':'SIMULATION');$('run-state').classList.toggle('live',!DEMO&&!!s.isLive);
+ txt('updated',new Date((s.now||Date.now()/1000)*1000).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}));
+ txt('quality',s.sensorsFresh?'Messwerte aktuell':'Messwerte pru\u00fcfen');
+ txt('pv',fmt(typeof s.pvW==='number'?s.pvW/1000:null));
+ txt('grid',fmt(typeof s.gridW==='number'?Math.abs(s.gridW)/1000:null));
+ txt('net-caption',s.gridW<0?'Einspeisung':'Netzbezug');
+ txt('battery',fmt(s.batterySoc,0));txt('reserve','Reserve '+fmt(s.houseBatteryReservePct,0)+' %');
+ txt('charging',fmt(typeof s.wallboxW==='number'?s.wallboxW/1000:null));txt('connector',s.connected?'Fahrzeug verbunden':'Nicht verbunden');
+ txt('range',valid?fmt(est.rangeKm,0):'--');txt('soc',valid?fmt(est.soc,0)+' %':'-- %');txt('ac-energy',fmt(s.active?.energyAcKwh??null,2));
+ txt('vehicle-state',!s.connected?'Kein Fahrzeug angesteckt':s.paused?'Laden pausiert':s.wallboxW>150?'Fahrzeug l\u00e4dt':'Fahrzeug angeschlossen');
+ const max=12000;
+ const bars=[['pv',s.pvW],['house',s.houseW],['wp',s.heatPumpW],['wall',s.wallboxW],['grid',typeof s.gridW==='number'?Math.max(0,s.gridW):null]];
+ bars.forEach(([id,value])=>{txt('flow-'+id,kw(value));$('bar-'+id).style.width=typeof value==='number'?Math.min(100,Math.max(0,value)/max*100)+'%':'0%'})
+ txt('battery-power',typeof s.batteryW==='number'?kw(s.batteryW)+' '+(s.batteryW>0?'Entladung':'Laden'):'--');txt('current',fmt(s.chargerCurrent,0)+' A');
+ txt('target-current',fmt(s.targetCurrent,0));txt('forecast',fmt(s.forecastAcKwh,1));txt('needed',fmt(s.neededAcKwh,1));
+ txt('mode',s.mode==='now'?'JETZT LADEN':'SMART LADEN');txt('decision-title',s.urgent?'Abfahrtsgarantie':(s.targetCurrent>0?'Laden wird freigegeben':'Ladung wartet'));txt('reason',s.reason||'--');
+ txt('live-note',DEMO?'Vorschau mit Beispieldaten; keine Steuerbefehle.':s.isLive?'LIVE: Steuerbefehle nur durch Controller und Sicherheitsfreigaben.':'SIMULATION: Keine Steuerbefehle an die Wallbox.');
+ txt('departure',timeFmt(s.departure));txt('trip-km',fmt(s.tripKm,0)+' km');txt('trip-target',fmt(s.targetSoc,0)+' %');
+ const percentage=valid?Math.min(100,Math.max(0,est.soc/(Math.max(1,s.targetSoc))*100)):0;$('trip-progress').style.width=percentage+'%';
+ txt('goal-notice',!valid?'Kein Fahrzeug-SoC erfasst: Abfahrtsgarantie derzeit nicht berechenbar.':s.routeImpossible?'Fahrziel gegebenenfalls nicht erreichbar.':s.urgent?'Rechtzeitiges Laden wird priorisiert.':'Prognose und Fahrziel werden in der Ladeplanung ber\u00fccksichtigt.');
+ txt('consumption',fmt(s.learned?.consumption,1));txt('efficiency',fmt(typeof s.learned?.efficiency==='number'?s.learned.efficiency*100:null,1));
+ txt('sample-count','Lernbasis: '+(s.learned?.drivingSamples||0)+' Fahrten, '+(s.learned?.efficiencySamples||0)+' gemessene Ladevorg\u00e4nge.');
+ txt('detail-heat',kw(s.heatPumpW));txt('detail-house',kw(s.houseW));txt('detail-quality',s.sensorsFresh?'Aktuell':'Nicht aktuell');txt('detail-status',s.connectorStatus||'--');
+ const h=$('history');h.textContent='';if(!s.history||!s.history.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=3;td.className='none';td.textContent='Noch keine Sitzungen vorhanden.';tr.append(td);h.append(tr)}else{s.history.slice(0,5).forEach(row=>{const tr=document.createElement('tr');const values=[new Date(row.plugTs*1000).toLocaleDateString('de-DE'),fmt(row.energyAcKwh,2)+' kWh',row.socAnchorPct===null?'--':fmt(row.socAnchorPct,0)+' %'];values.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td)});h.append(tr)})}
+}
+window.handleMessage=function(message){if(typeof message==='string'){try{message=JSON.parse(message)}catch(e){return}}if(!message||typeof message!=='object')return;data=message;render()};
+render();
+})();
+</script>

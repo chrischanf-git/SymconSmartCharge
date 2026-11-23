@@ -1,0 +1,26 @@
+{
+  "elements": [
+    {
+      "type": "Label",
+      "caption": "Eigenstaendige, schreibgeschuetzte Energie-Dashboard-Kachel. Keine zweite Lade-Engine und keine Charge-Amps-Cloudabfragen."
+    },
+    {
+      "type": "SelectInstance",
+      "name": "ControllerInstanceID",
+      "caption": "SmartCharge-Controller (bestehende Instanz)",
+      "validModules": [
+        "{0F06F87B-A351-4B29-98A1-6DADE5C75CE0}"
+      ]
+    },
+    {
+      "type": "Label",
+      "caption": "Optik separat fuer Dashboard konfigurierbar. Alle Werte aus dem ausgewaehlten Controller."
+    }
+  ],
+  "actions": [
+    {
+      "type": "Label",
+      "caption": "Dashboard ist nur lesend; Lademodus und Fahrdaten in der Smartphone-Kachel steuern."
+    }
+  ]
+}
